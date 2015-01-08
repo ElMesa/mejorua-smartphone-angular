@@ -1,0 +1,34 @@
+.issueDetail img {
+	height: 20px;
+	width: auto;
+}
+
+
+#issueDetailState {
+	color: #000;
+}
+
+.issueStatePendingBackground {
+	background-color: rgb(255, 134, 144);
+	border-color: #830000;
+}
+#issueDetailState.issueStatePendingBackground {
+	background-color: rgb(255, 134, 144);
+}
+
+.issueStateDoneBackground {
+	background-color: rgb(139, 255, 134);
+	border-color: #008305;
+}
+#issueDetailState.issueStateDoneBackground {
+	background-color: rgb(139, 255, 134);
+}
+
+.issueStateInProgressBackground {
+	background-color: rgb(245, 255, 134);
+	border-color: #7E8300;
+}
+#issueDetailState.issueStateInProgressBackground {
+	background-color: rgb(245, 255, 134);
+}
+

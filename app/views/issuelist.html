@@ -1,0 +1,6 @@
+<h1>Issues</h1>
+<ul ng-repeat="issue in issues track by $index">
+  <li>
+    Issue {{issue.id}} - {{issue.state}} - <a href="#/issueDetail/{{issue.id}}" class="btn">View details</a>
+  </li>
+</ul>

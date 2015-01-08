@@ -1,0 +1,182 @@
+<form id="((issue.id))" class="issueDetail form-horizontal" role="form">
+
+    <div class="form-group">
+        <div class="col-sm-2">
+            <h2>Incidencia</h2>
+        </div>
+        <div class="col-sm-10">
+            <h2 id="issueDetailId">{{issue.id}}</h2>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="((viewId))_issueDetailAction" class="col-sm-2 control-label">
+            Accion
+        </label>
+        <div class="col-sm-10">
+            <input id="((viewId))_issueDetailAction" type="text" ((inputsDisabledCSS)) class="form-control ((inputsDisabledCSS))" placeholder="Acción a realizar en la incidencia" value="((action))">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="((viewId))_issueDetailTerm" class="col-sm-2 control-label">
+            Objetivo
+        </label>
+        <div class="col-sm-10">
+            <input id="((viewId))_issueDetailTerm" type="text" ((inputsDisabledCSS)) class="form-control ((inputsDisabledCSS))" placeholder="Objetivo de la acción a realizar en la incidencia" value="((term))">
+        </div>
+    </div>
+
+    <div class="form-group" (({hideOnCreate))}>
+        <label for="issueDetailState" class="col-sm-2 control-label">
+            Estado
+        </label>
+        <div class="col-sm-10">
+            <div class="input-group">
+                <span id="issueDetailStateImg" class="input-group-addon ((viewStateCSS))">
+							<img src="((viewStateIcon))">
+						</span>
+                <input id="issueDetailState" type="text" disabled class="form-control ((viewStateCSS))" placeholder="Estado de la incidencia" value="((viewStateText))">
+            </div>
+        </div>
+    </div>
+
+    <!--
+			/*
+			<div class="form-group">
+				<label class="col-sm-2 control-label">
+					Test pending
+				</label>
+				<div class="col-sm-10">
+					<div class="input-group">
+						<span id="issueDetailStateImg" class="input-group-addon issueStatePendingBackground">
+							<img src="img/map/icon_pending.png">
+						</span>
+						<input id="issueDetailState" type="text" disabled class="form-control issueStatePendingBackground" placeholder="Estado de la incidencia" value="test">
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">
+					Test inProgress
+				</label>
+				<div class="col-sm-10">
+					<div class="input-group">
+						<span id="issueDetailStateImg" class="input-group-addon issueStateInProgressBackground">
+							<img src="img/map/icon_inProgress.png">
+						</span>
+						<input id="issueDetailState" type="text" disabled class="form-control issueStateInProgressBackground" placeholder="Estado de la incidencia">
+					</div>
+				</div>
+			</div>
+			*/
+			-->
+
+    <div class="form-group">
+        <label for="issueDetail_SIGUASede" class="col-sm-2 control-label">
+            Sede
+        </label>
+        <div class="col-sm-10">
+            <p id="issueDetail_SIGUASede" class="form-control-static">((SIGUASede.attributes.0.nombre))</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="issueDetail_SIGUAEdificio" class="col-sm-2 control-label">
+            Edificio
+        </label>
+        <div class="col-sm-10">
+            <p id="issueDetail_SIGUAEdificio" class="form-control-static">((SIGUAEdificio.attributes.0.nombre))</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="issueDetail_SIGUAPlanta" class="col-sm-2 control-label">
+            Planta
+        </label>
+        <div class="col-sm-10">
+            <p id="issueDetail_SIGUAPlanta" class="form-control-static">((viewFloorName))</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="issueDetail_SIGUAEstancia" class="col-sm-2 control-label">
+            Estancia
+        </label>
+        <div class="col-sm-10">
+            <p id="issueDetail_SIGUAEstancia" class="form-control-static">((SIGUAEstancia.attributes.denominacion))</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="issueDetail_SIGUAActividad" class="col-sm-2 control-label">
+            Actividad
+        </label>
+        <div class="col-sm-10">
+            <p id="issueDetail_SIGUAActividad" class="form-control-static">((SIGUAEstancia.attributes.nombre_actividad))</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">
+            Lugar
+        </label>
+        <div class="col-sm-5">
+            <div class="input-group">
+                <span class="input-group-addon">Latitud</span>
+                <input id="issueDetailLatitude" type="text" disabled class="form-control" placeholder="Latitud de la incidencia" value="((latitude))">
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="input-group">
+                <span class="input-group-addon">Longitud</span>
+                <input id="issueDetailLongitude" type="text" disabled class="form-control" placeholder="Longitud de la incidencia" value="((longitude))">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" (({hideOnCreate))}>
+        <label class="col-sm-2 control-label">
+            Historial
+        </label>
+        <div class="col-sm-10">
+
+            ((#if events.length))
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>
+                            Fecha
+                        </td>
+                        <td>
+                            Actividad
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    ((#events))
+                    <tr>
+                        <td>
+                            ((viewDate))
+                        </td>
+                        <td class="((viewBackgroundCSS))">
+                            ((viewType))
+                        </td>
+                    </tr>
+                    ((/events))
+                </tbody>
+            </table>
+            ((else))
+            <p class="form-control-static">Sin datos en el historial</p>
+            ((/if))
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-offset-2 col-sm-10">
+            <a class="submit btn btn-success btn-block" (({hideOnRead))}>Notificar</a>
+        </div>
+    </div>
+</form>
