@@ -10,7 +10,7 @@
 angular.module('mejoruaSmartphoneAngularApp')
     .service('IssueDAO', ['Restangular', function(Restangular) {
         // AngularJS will instantiate a singleton by calling "new" on this function
-        
+
         var self = this;
 
         this.API_URL = undefined; //Self descriptive
@@ -26,18 +26,18 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         this.getAll = function getAll() {
-        	if(this.issuesPromise == undefined || this.issues == undefined) {
-	            this.issuesPromise = this.dao.getList();
-	            this.issuesPromise.then(function(issues) {
-	            	self.issues = issues;
-	            });
+            if (this.issuesPromise == undefined || this.issues == undefined) {
+                this.issuesPromise = this.dao.getList();
+                this.issuesPromise.then(function(issues) {
+                    self.issues = issues;
+                });
             }
             return this.issuesPromise;
         }
 
         this.getById = function getById(issueId) {
-        	console.log('IssueDAO.getById(issueId: %O)', issueId);
-        	return this.dao.get(issueId);
+            console.log('IssueDAO.getById(issueId: %O)', issueId);
+            return this.dao.get(issueId);
         }
 
         //If finally we use cached resources, this is the API Call, instead of the cache lookup
@@ -56,4 +56,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         */
 
         this.init();
-    }]);
+    }])
+
+//TODO - REFACTOR - OWN FILE OR ELSEWHERE (Maybe issuedetail service, if created one)
+.value('issueDetailShared', {});

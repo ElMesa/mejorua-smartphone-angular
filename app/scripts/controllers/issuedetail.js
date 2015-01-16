@@ -8,12 +8,12 @@
  * Controller of the mejoruaSmartphoneAngularApp
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .controller('IssuedetailCtrl', ['$scope', '$routeParams', 'IssueDAO', function($scope, $routeParams, IssueDAO) {
+    .controller('IssuedetailCtrl', ['$scope', '$routeParams', 'IssueDAO', 'issueDetailShared', function($scope, $routeParams, IssueDAO, issueDetailShared) {
 
-        $scope.issueId = $routeParams.issueId;
+        issueDetailShared.id = $routeParams.issueId;
 
         $scope.init = function init() {
-        	$scope.issue = $scope.getIssueById($scope.issueId);	
+        	$scope.issue = $scope.getIssueById(issueDetailShared.id);	
         }
 
         $scope.getIssueById = function getIssueById(issueId) {

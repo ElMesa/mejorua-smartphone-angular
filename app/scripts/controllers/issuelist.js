@@ -22,3 +22,5 @@ angular.module('mejoruaSmartphoneAngularApp')
 
     this.init();
   }]);
+
+  
