@@ -1,4 +1,4 @@
-<form id="((issue.id))" class="issueDetail form-horizontal" role="form">
+<form id="{{issue.id}}" class="issueDetail form-horizontal" role="form">
 
     <div class="form-group">
         <div class="col-sm-2">
@@ -10,75 +10,42 @@
     </div>
 
     <div class="form-group">
-        <label for="((viewId))_issueDetailAction" class="col-sm-2 control-label">
+        <label for="{{viewId}}_issueDetailAction" class="col-sm-2 control-label">
             Accion
         </label>
         <div class="col-sm-10">
-            <input id="((viewId))_issueDetailAction" type="text" ((inputsDisabledCSS)) class="form-control ((inputsDisabledCSS))" placeholder="Acción a realizar en la incidencia" value="((action))">
+            <input id="{{viewId}}_issueDetailAction" type="text" ng-disabled="isModeReadOnly" class="form-control {{css.inputsDisabled}}" placeholder="Acción a realizar en la incidencia" value="{{issue.action}}">
         </div>
     </div>
 
     <div class="form-group">
-        <label for="((viewId))_issueDetailTerm" class="col-sm-2 control-label">
+        <label for="{{viewId}}_issueDetailTerm" class="col-sm-2 control-label">
             Objetivo
         </label>
         <div class="col-sm-10">
-            <input id="((viewId))_issueDetailTerm" type="text" ((inputsDisabledCSS)) class="form-control ((inputsDisabledCSS))" placeholder="Objetivo de la acción a realizar en la incidencia" value="((term))">
+            <input id="{{viewId}}_issueDetailTerm" type="text" ng-disabled="isModeReadOnly" class="form-control {{css.inputsDisabled}}" placeholder="Objetivo de la acción a realizar en la incidencia" value="{{issue.term}}">
         </div>
     </div>
 
-    <div class="form-group" (({hideOnCreate))}>
+    <div class="form-group" {{hideOnCreate}}>
         <label for="issueDetailState" class="col-sm-2 control-label">
             Estado
         </label>
         <div class="col-sm-10">
             <div class="input-group">
-                <span id="issueDetailStateImg" class="input-group-addon ((viewStateCSS))">
-							<img src="((viewStateIcon))">
-						</span>
-                <input id="issueDetailState" type="text" disabled class="form-control ((viewStateCSS))" placeholder="Estado de la incidencia" value="((viewStateText))">
+                <span id="issueDetailStateImg" class="input-group-addon {{issue.state.CSS}}">
+                            <img src="{{issue.state.icon}}">
+                        </span>
+                <input id="issueDetailState" type="text" disabled class="form-control {{issue.state.CSS}}" placeholder="Estado de la incidencia" value="{{issue.state.text}}">
             </div>
         </div>
     </div>
-
-    <!--
-			/*
-			<div class="form-group">
-				<label class="col-sm-2 control-label">
-					Test pending
-				</label>
-				<div class="col-sm-10">
-					<div class="input-group">
-						<span id="issueDetailStateImg" class="input-group-addon issueStatePendingBackground">
-							<img src="img/map/icon_pending.png">
-						</span>
-						<input id="issueDetailState" type="text" disabled class="form-control issueStatePendingBackground" placeholder="Estado de la incidencia" value="test">
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-sm-2 control-label">
-					Test inProgress
-				</label>
-				<div class="col-sm-10">
-					<div class="input-group">
-						<span id="issueDetailStateImg" class="input-group-addon issueStateInProgressBackground">
-							<img src="img/map/icon_inProgress.png">
-						</span>
-						<input id="issueDetailState" type="text" disabled class="form-control issueStateInProgressBackground" placeholder="Estado de la incidencia">
-					</div>
-				</div>
-			</div>
-			*/
-			-->
-
     <div class="form-group">
         <label for="issueDetail_SIGUASede" class="col-sm-2 control-label">
             Sede
         </label>
         <div class="col-sm-10">
-            <p id="issueDetail_SIGUASede" class="form-control-static">((SIGUASede.attributes.0.nombre))</p>
+            <p id="issueDetail_SIGUASede" class="form-control-static">{{issue.SIGUA.headquarters.name}}</p>
         </div>
     </div>
 
@@ -87,7 +54,7 @@
             Edificio
         </label>
         <div class="col-sm-10">
-            <p id="issueDetail_SIGUAEdificio" class="form-control-static">((SIGUAEdificio.attributes.0.nombre))</p>
+            <p id="issueDetail_SIGUAEdificio" class="form-control-static">{{issue.SIGUA.building.name}}</p>
         </div>
     </div>
 
@@ -96,7 +63,7 @@
             Planta
         </label>
         <div class="col-sm-10">
-            <p id="issueDetail_SIGUAPlanta" class="form-control-static">((viewFloorName))</p>
+            <p id="issueDetail_SIGUAPlanta" class="form-control-static">{{issue.SIGUA.room.floorText}}</p>
         </div>
     </div>
 
@@ -105,7 +72,7 @@
             Estancia
         </label>
         <div class="col-sm-10">
-            <p id="issueDetail_SIGUAEstancia" class="form-control-static">((SIGUAEstancia.attributes.denominacion))</p>
+            <p id="issueDetail_SIGUAEstancia" class="form-control-static">{{issue.SIGUA.room.denomination}}</p>
         </div>
     </div>
 
@@ -114,7 +81,7 @@
             Actividad
         </label>
         <div class="col-sm-10">
-            <p id="issueDetail_SIGUAActividad" class="form-control-static">((SIGUAEstancia.attributes.nombre_actividad))</p>
+            <p id="issueDetail_SIGUAActividad" class="form-control-static">{{issue.SIGUA.room.activityName}}</p>
         </div>
     </div>
 
@@ -125,58 +92,56 @@
         <div class="col-sm-5">
             <div class="input-group">
                 <span class="input-group-addon">Latitud</span>
-                <input id="issueDetailLatitude" type="text" disabled class="form-control" placeholder="Latitud de la incidencia" value="((latitude))">
+                <input id="issueDetailLatitude" type="text" disabled class="form-control" placeholder="Latitud de la incidencia" value="{{issue.latitude}}">
             </div>
         </div>
         <div class="col-sm-5">
             <div class="input-group">
                 <span class="input-group-addon">Longitud</span>
-                <input id="issueDetailLongitude" type="text" disabled class="form-control" placeholder="Longitud de la incidencia" value="((longitude))">
+                <input id="issueDetailLongitude" type="text" disabled class="form-control" placeholder="Longitud de la incidencia" value="{{issue.longitude}}">
             </div>
         </div>
-    </div>
 
-    <div class="form-group" (({hideOnCreate))}>
+    </div>
+    <div class="form-group" ng-show="isModeReadOnly" >
         <label class="col-sm-2 control-label">
             Historial
         </label>
         <div class="col-sm-10">
-
-            ((#if events.length))
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <td>
-                            Fecha
-                        </td>
-                        <td>
-                            Actividad
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    ((#events))
-                    <tr>
-                        <td>
-                            ((viewDate))
-                        </td>
-                        <td class="((viewBackgroundCSS))">
-                            ((viewType))
-                        </td>
-                    </tr>
-                    ((/events))
-                </tbody>
-            </table>
-            ((else))
-            <p class="form-control-static">Sin datos en el historial</p>
-            ((/if))
+            <div ng-show="issue.events.length">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>
+                                Fecha
+                            </td>
+                            <td>
+                                Actividad
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="event in issue.events track by $index">
+                            <td>
+                                {{event.date | myShortDate }}
+                            </td>
+                            <td class="{{event.CSS}}">
+                                {{event.typeText}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-hide="issue.events.length">
+                <p class="form-control-static">Sin datos en el historial</p>
+            </div>
 
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" ng-hide="isModeReadOnly">
         <div class="col-sm-offset-2 col-sm-10">
-            <a class="submit btn btn-success btn-block" (({hideOnRead))}>Notificar</a>
+            <a class="submit btn btn-success btn-block" >Notificar</a>
         </div>
     </div>
 </form>

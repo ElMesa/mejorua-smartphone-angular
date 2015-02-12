@@ -22,10 +22,17 @@ angular
             controller: 'IssuelistCtrl'
         })
         .when('/issueDetail/:issueId', {
-          templateUrl: 'views/issuedetail.html',
-          controller: 'IssuedetailCtrl'
+            templateUrl: 'views/issuedetail.html',
+            controller: 'IssuedetailCtrl'
         })
         .otherwise({
             redirectTo: '/'
         });
+})
+
+.filter('myShortDate', function($filter) {    
+    var angularDateFilter = $filter('date');
+    return function(theDate) {
+       return angularDateFilter(theDate, 'dd/MM/yyyy');
+    }
 });

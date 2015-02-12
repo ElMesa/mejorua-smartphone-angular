@@ -25,6 +25,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.dao = Restangular.all('issues');
         }
 
+        //Cached getAll. Cached locally at service this.issues. If no cached info detected, request is send
         this.getAll = function getAll() {
             if (this.issuesPromise == undefined || this.issues == undefined) {
                 this.issuesPromise = this.dao.getList();
@@ -35,6 +36,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             return this.issuesPromise;
         }
 
+        //Uncached getById
         this.getById = function getById(issueId) {
             console.log('IssueDAO.getById(issueId: %O)', issueId);
             return this.dao.get(issueId);
