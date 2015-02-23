@@ -4,14 +4,39 @@ body {
   padding-bottom: 10px;
 }
 
-html, body, .container, .fill {
+html, body, .container, .fill, #view_mainContent {
     height: 100%;
 }
 
+#navMain {
+	margin-bottom: 5px;
+}
+
+.viewHeader, {
+	height: 20%;
+	background-color: green;
+}
+
+.viewFooter {
+	height: 10%;
+	background-color: rgb(145, 247, 145);
+}
+
+.viewContainer {
+	height: 70%;
+}
+
+/* Old stuff */
 .fill95 {
 	height: 95%;
 }
 
 .fill90 {
 	height: 90%;
+}
+
+h1 {
+	margin:0px;
+	padding-top: 10px;
+	padding-bottom: 5px;
 }

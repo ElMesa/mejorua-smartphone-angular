@@ -9,6 +9,11 @@
 .leaflet-container a {
 	color: #000000;
 }
+
+/* Quick "hack" to disable layers UI control */
+.leaflet-control-layers {
+	display:none;
+}
 /*
 #floorSelectorNav .container-fluid, #floorSelectorNav .collapse {
 	padding: 0px;

@@ -4,7 +4,11 @@ Rewrite of the client in angular
 
 ## Tasks
 
-* Fix IssueDetail view, at least in its read mode
-    * Capture SIGUA data and show it
+* IssueMap view
+    * Show all issues
+        * Marker color from issue state
+        * On click, brief details about the issue, also with color coding (background color)
+        * Link to issue details
 * Fix IssueDetail - notify mode
-* Consider including Map in angular app
+* Issue change state
+* Issue List/Map filtering

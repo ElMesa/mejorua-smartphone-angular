@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-    .module('mejoruaSmartphoneAngularApp', ['ngRoute', 'restangular'])
+    .module('mejoruaSmartphoneAngularApp', ['ngRoute', 'restangular', 'leaflet-directive'])
 
 .config(function($routeProvider, $locationProvider) {
     $routeProvider
@@ -17,9 +17,13 @@ angular
             templateUrl: 'views/issuelist.html',
             controller: 'IssuelistCtrl'
         })
-        .when('/issueList', {
+        .when('/issuesList', {
             templateUrl: 'views/issuelist.html',
             controller: 'IssuelistCtrl'
+        })
+        .when('/issuesMap', {
+            templateUrl: 'views/issuemap.html',
+            controller: 'IssuemapCtrl'
         })
         .when('/issueDetail/:issueId', {
             templateUrl: 'views/issuedetail.html',

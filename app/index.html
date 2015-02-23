@@ -10,6 +10,8 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -63,7 +65,10 @@
             <div id="main-nav-collapse" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li id="navbar-pageMap">
-                        <a href="#/issueslist">Issues List</a>
+                        <a href="#/issuesList">Issues List</a>
+                    </li>
+                    <li id="navbar-pageMap">
+                        <a href="#/issuesMap">Issues Map</a>
                     </li>
                     <li id="navbar-pageIssueDetail" ng-if="issueDetailShared.id">
                         <a href="#/issuedetail/{{issueDetailShared.id}}">Issue Detail</a>
@@ -111,6 +116,9 @@
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <script src="bower_components/restangular/dist/restangular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+    <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -122,6 +130,7 @@
     <script src="scripts/services/issuedao.js"></script>
     <script src="scripts/services/issuebo.js"></script>
     <script src="scripts/services/siguadao.js"></script>
+    <script src="scripts/controllers/issuemap.js"></script>
     <!-- endbuild -->
 
     <script src="scripts/utils-angularConsoleDebug.js"></script>
