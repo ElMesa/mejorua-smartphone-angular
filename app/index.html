@@ -17,6 +17,11 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+    <!-- wiredep missing CSS-->
+    <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
     <!-- MejorUA CSS -->
     <link href="styles/master.css" rel="stylesheet">
     <link href="styles/header.css" rel="stylesheet">
@@ -122,6 +127,9 @@
     <!-- endbower -->
     <!-- endbuild -->
 
+    <!-- wiredep missing JS -->
+    <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
@@ -132,6 +140,7 @@
     <script src="scripts/services/siguadao.js"></script>
     <script src="scripts/controllers/issuemap.js"></script>
     <script src="scripts/services/mapbo.js"></script>
+    <script src="scripts/services/observerservice.js"></script>
     <!-- endbuild -->
 
     <script src="scripts/utils-angularConsoleDebug.js"></script>

@@ -8,7 +8,7 @@
  * Service in the mejoruaSmartphoneAngularApp.
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('MapBO', function() {
+    .service('MapBO', ['IssueDAO', function(IssueDAO) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self; //Used to hold "this"
@@ -18,9 +18,11 @@ angular.module('mejoruaSmartphoneAngularApp')
             newMap.init();
             return newMap;
         }
-        
+
         this.init = function init() {
             self = this;
+
+            IssueDAO.observer.subscribe("fetch", this.markersUpdate);
 
             this.center = {
                 lat: 38.383572, // Leaflet map default latitude - Set to University of Alicante
@@ -30,6 +32,7 @@ angular.module('mejoruaSmartphoneAngularApp')
 
             this.initTiles();
             this.initLayers();
+            this.initMarkers();
         }
 
         this.initTiles = function initTiles() {
@@ -103,6 +106,36 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.setActiveFloorLayer(defaultFloor);
         }
 
+        this.initMarkers = function initMarkers() {
+            this.markers = {};
+            this.markers.active = {};
+
+            //this.markersUpdate(IssueDAO.issues);
+        }
+
+        this.markersUpdate = function markersUpdate(issues) {
+            console.log("MapBO - markersUpdate(issues:%O) ", issues);
+            var markers = {};
+            var issue;
+
+            if (issues != undefined) {
+
+                for (var i = 0; i < issues.length; i++) {
+                    issue = issues[i];
+
+                    markers[issue.idSIGUA] = {
+                        //group: "ua",
+                        lat: issue.latitude,
+                        lng: issue.longitude
+                    }
+                }
+            }
+
+            self.markers.active = markers;
+            
+            return markers;
+        }
+
         this.newLayerConfig = function newLayerConfig(url, isFloor) {
             if (isFloor == undefined) isFloor = false;
             //type: xyz,mapbox,geoJSON,utfGrid,cartodbTiles,cartodbUTFGrid,cartodbInteractive,wms,wmts,wfs,group,featureGroup,google,china,ags,dynamic,markercluster,bing,heatmap,yandex,imageOverlay,custom
@@ -135,10 +168,10 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.layers.active.overlays.floorDenomination = this.layers.sigua.floor[floor].deno;
         }
 
-        this.activeFloorLayerDelete = function activeFloorLayerDelete(){
-        	delete this.layers.active.overlays.floorBackground;
+        this.activeFloorLayerDelete = function activeFloorLayerDelete() {
+            delete this.layers.active.overlays.floorBackground;
             delete this.layers.active.overlays.floorDenomination;
         }
 
         this.init();
-    });
+    }]);

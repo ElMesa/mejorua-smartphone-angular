@@ -8,10 +8,12 @@
  * Service in the mejoruaSmartphoneAngularApp.
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('IssueDAO', ['Restangular', function(Restangular) {
+    .service('IssueDAO', ['Restangular', 'ObserverService', function(Restangular, ObserverService) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
-        var self = this;
+        var self;
+
+        this.observer = undefined; //Observer for event callbacks on IssueDAO
 
         this.API_URL = undefined; //Self descriptive
         this.dao = undefined; //Restangular DAO for Issues
@@ -19,20 +21,52 @@ angular.module('mejoruaSmartphoneAngularApp')
         this.issues = undefined; //Issue collection resources
 
         this.init = function init() {
+            self = this;
+
+            this.observer = ObserverService.create();
+            this.observer.addEvent("fetch");
+            this.observer.addEvent("add");
+
             this.API_URL = 'http://localhost:8080/mejorua-api/api';
             Restangular.setBaseUrl(this.API_URL);
 
             this.dao = Restangular.all('issues');
+            //this.issues = {};
+            this.getAll();
         }
 
+        this.getIssuesPromise = function getIssuesPromise() {
+            if (this.issuesPromise == undefined) this.getAll();
+
+            return this.issuesPromise;
+        }
+
+        /*
         //Cached getAll. Cached locally at service this.issues. If no cached info detected, request is send
         this.getAll = function getAll() {
             if (this.issuesPromise == undefined || this.issues == undefined) {
                 this.issuesPromise = this.dao.getList();
                 this.issuesPromise.then(function(issues) {
+                    //$.extend(self.issues, issues);
+                    self.issues = issues;
+                });
+            } else {
+                //self.issues = this.issues.getList().$object;
+                this.issuesPromise = this.dao.getList();
+                this.issuesPromise.then(function(issues) {
                     self.issues = issues;
                 });
             }
+            return this.issuesPromise;
+        }
+        */
+        this.getAll = function getAll() {
+            this.issuesPromise = this.dao.getList();
+            this.issuesPromise.then(function(issues) {
+                self.issues = issues;
+                self.observer.notify("fetch", issues);
+            });
+
             return this.issuesPromise;
         }
 
@@ -56,6 +90,12 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         }
         */
+
+        this.add = function add(issue) {
+            this.issues.post(issue).then(function() {
+                self.getAll();
+            });
+        }
 
         this.init();
     }])

@@ -77,6 +77,31 @@ angular.module('mejoruaSmartphoneAngularApp')
             return newIssue;
         }
 
+        this.createRandom = function createRandom() {
+            //UA top left: 38.388925, -0.518961
+            //UA bottom right: 38.380796, -0.508049
+            //
+            var UATopLeftLat = 38.388925;
+            var UATopLeftLong = -0.518961;
+            var UABottomRightLat = 38.380796;
+            var UABottomRightLong = -0.508049;
+
+            //Random float between 2 values
+            var UArandomLat = Math.random() * (UABottomRightLat - UATopLeftLat) + UATopLeftLat
+            var UArandomLong = Math.random() * (UABottomRightLong - UATopLeftLong) + UATopLeftLong
+
+            var randomIssue = this.create();
+
+            randomIssue.models.issue = {};
+            randomIssue.models.issue.action = "Random action";
+            randomIssue.models.issue.term = "Random term";
+            randomIssue.models.issue.idSIGUA = "Random_" + new Date().getMilliseconds(); + "_" + Math.random();
+            randomIssue.models.issue.latitude = UArandomLat;
+            randomIssue.models.issue.longitude = UArandomLong;
+
+            return randomIssue;
+        }
+        
         //Fetch using provided id or use embebed model id if no id provided. Returns a promise.
         this.fetch = function fetch(issueId) {
             var fetchPromise;
