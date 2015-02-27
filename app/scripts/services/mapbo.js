@@ -7,8 +7,10 @@
  * # MapBO
  * Service in the mejoruaSmartphoneAngularApp.
  */
+
+//REFACTOR - Decrease dependencies - Using Issue DAO and BO. Maybe using just BO will be better. For that BO needs the issuelist. Nowadays we are using the raw IssueDAO.issues fetched from API. BO is needed to get some data like the mapping issue.state 2 legible text
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('MapBO', ['IssueDAO', function(IssueDAO) {
+    .service('MapBO', ['IssueDAO', 'IssueBO', function(IssueDAO, IssueBO) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self; //Used to hold "this"
@@ -148,7 +150,12 @@ angular.module('mejoruaSmartphoneAngularApp')
                         //group: "ua",
                         lat: issue.latitude,
                         lng: issue.longitude,
-                        icon: self.icons.issue.state[issue.state]
+                        icon: self.icons.issue.state[issue.state],
+                        message: '<p class="issue state' + issue.state +'"> ' + IssueBO.modelState2viewText[issue.state] + '<br/>'+
+                            issue.action + '<br/>'+
+                            issue.term + '<br/>'+
+                            '<a href="#/issueDetail/' + issue.id + '" class="btn btn-xs btn-block state' + issue.state + '">Ver detalles</a>'+
+                        '</p>'
                     }
                 }
             }

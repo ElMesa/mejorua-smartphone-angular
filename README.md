@@ -5,10 +5,6 @@ Rewrite of the client in angular
 ## Tasks
 
 * IssueMap view
-    * Show all issues
-        * Marker color from issue state
-        * On click, brief details about the issue, also with color coding (background color)
-        * Link to issue details
     * Include marker clustering: http://tombatossals.github.io/angular-leaflet-directive/examples/markers-clustering-example.html
     * Test map refresh on add
 * Fix IssueDetail - notify mode

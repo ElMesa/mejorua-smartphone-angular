@@ -1,0 +1,14 @@
+.issue.statePENDING,.issue .statePENDING {
+	background-color: rgb(255, 134, 144);
+	border-color: #830000;
+}
+
+.issue.stateINPROGRESS, .issue .stateINPROGRESS {
+	background-color: rgb(245, 255, 134);
+	border-color: #7E8300;
+}
+
+.issue.stateDONE, .issue .stateDONE {
+	background-color: rgb(139, 255, 134);
+	border-color: #008305;
+}
