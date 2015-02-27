@@ -32,6 +32,7 @@ angular.module('mejoruaSmartphoneAngularApp')
 
             this.initTiles();
             this.initLayers();
+            this.initIcons();
             this.initMarkers();
         }
 
@@ -106,11 +107,31 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.setActiveFloorLayer(defaultFloor);
         }
 
+        this.initIcons = function initIcons() {
+            var iconSize = [22, 31];
+
+            this.icons = {};
+            this.icons.template = {
+                iconSize: iconSize,
+                iconAnchor: [(iconSize[0] / 2), iconSize[1]],
+                popupAnchor: [0, -iconSize[1]]
+            };
+            
+            this.icons.issue = {};
+            this.icons.issue.state = {};
+            this.icons.issue.state.PENDING = angular.copy(this.icons.template);
+            this.icons.issue.state.PENDING.iconUrl = 'images/map/icon_pending.png';
+            this.icons.issue.state.INPROGRESS = angular.copy(this.icons.template);
+            this.icons.issue.state.INPROGRESS.iconUrl = 'images/map/icon_inProgress.png';
+            this.icons.issue.state.DONE = angular.copy(this.icons.template);
+            this.icons.issue.state.DONE.iconUrl = 'images/map/icon_done.png';
+        }
+
         this.initMarkers = function initMarkers() {
             this.markers = {};
             this.markers.active = {};
 
-            //this.markersUpdate(IssueDAO.issues);
+            if (IssueDAO.issues != undefined) this.markersUpdate(IssueDAO.issues);
         }
 
         this.markersUpdate = function markersUpdate(issues) {
@@ -126,13 +147,14 @@ angular.module('mejoruaSmartphoneAngularApp')
                     markers[issue.idSIGUA] = {
                         //group: "ua",
                         lat: issue.latitude,
-                        lng: issue.longitude
+                        lng: issue.longitude,
+                        icon: self.icons.issue.state[issue.state]
                     }
                 }
             }
 
             self.markers.active = markers;
-            
+
             return markers;
         }
 
