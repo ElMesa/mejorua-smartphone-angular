@@ -5,7 +5,6 @@ Rewrite of the client in angular
 ## Tasks
 
 * IssueMap view
-    * Fix the Less gradient experiment for buttons
     * Include marker clustering: http://tombatossals.github.io/angular-leaflet-directive/examples/markers-clustering-example.html
     * Marker popup - View deatils button: Use CSS preprocesor to bind ".issue a.stateX" to "btn btn-X" so we have more flexibility to change theming
 * Notify issues

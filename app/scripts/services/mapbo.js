@@ -114,19 +114,33 @@ angular.module('mejoruaSmartphoneAngularApp')
 
             this.icons = {};
             this.icons.template = {
-                iconSize: iconSize,
-                iconAnchor: [(iconSize[0] / 2), iconSize[1]],
-                popupAnchor: [0, -iconSize[1]]
+                //iconSize: iconSize,
+                //iconAnchor: [(iconSize[0] / 2), iconSize[1]],
+                //popupAnchor: [0, -iconSize[1]]
+                type:'awesomeMarker',
+                prefix: 'fa'
             };
             
             this.icons.issue = {};
             this.icons.issue.state = {};
             this.icons.issue.state.PENDING = angular.copy(this.icons.template);
-            this.icons.issue.state.PENDING.iconUrl = 'images/map/icon_pending.png';
+            //this.icons.issue.state.PENDING.iconUrl = 'images/map/icon_pending.png';
             this.icons.issue.state.INPROGRESS = angular.copy(this.icons.template);
-            this.icons.issue.state.INPROGRESS.iconUrl = 'images/map/icon_inProgress.png';
+            //this.icons.issue.state.INPROGRESS.iconUrl = 'images/map/icon_inProgress.png';
             this.icons.issue.state.DONE = angular.copy(this.icons.template);
-            this.icons.issue.state.DONE.iconUrl = 'images/map/icon_done.png';
+            //this.icons.issue.state.DONE.iconUrl = 'images/map/icon_done.png';
+
+            this.icons.issue.state.PENDING.icon = 'exclamation-triangle';
+            this.icons.issue.state.PENDING.markerColor = 'red';
+            //this.icons.issue.state.PENDING.extraClasses = 'colorRed';
+
+            this.icons.issue.state.INPROGRESS.icon = 'cog';
+            this.icons.issue.state.INPROGRESS.markerColor = 'orange';
+            this.icons.issue.state.INPROGRESS.spin = true;
+            //this.icons.issue.state.INPROGRESS.extraClasses = 'colorYellow';
+
+            this.icons.issue.state.DONE.icon = 'check';
+            this.icons.issue.state.DONE.markerColor = 'green';   
         }
 
         this.initMarkers = function initMarkers() {

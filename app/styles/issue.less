@@ -12,6 +12,14 @@
 @dark-1: 30%;
 @dark-2: 10%;
 
+
+i.colorRed {
+    color: hsl(@hueRed, 100%, @light-default);
+}
+i.colorYellow {
+    color: hsl(@hueYellow, 100%, @light-default);
+}
+
 .button-gradient(@hue) {
     .linear-gradient-multi-joined(180deg, hsl(@hue, 100%, @light-2) 0%, hsl(@hue, 100%, @light-1) 10%, hsl(@hue, 100%, @light-default) 40%, hsl(@hue, 100%, @light-default) 60%, hsl(@hue, 100%, @dark-1) 95%, hsl(@hue, 100%, @dark-2) 100%);
     border-color: hsl(@hue, 100%, @dark-2);

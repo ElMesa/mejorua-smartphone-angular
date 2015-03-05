@@ -35,5 +35,9 @@ angular.module('mejoruaSmartphoneAngularApp')
             $scope.isModeReadOnly = true;
         }
 
+        $scope.getIconURL = function getIconURL(state) {
+            return 'views/icons/state' + state + '.html'
+        }
+
         $scope.init();
     }]);

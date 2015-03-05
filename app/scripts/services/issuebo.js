@@ -185,9 +185,11 @@ angular.module('mejoruaSmartphoneAngularApp')
             if (this.models.issue != undefined) {
 
                 if (shouldUpdate.all || shouldUpdate.API.issue) {
+                    this.view.id = this.models.issue.id;
                     this.view.action = this.models.issue.action;
                     this.view.term = this.models.issue.term;
                     this.view.state = {};
+                    this.view.state.value = this.models.issue.state;
                     this.view.state.text = this.modelState2viewText[this.models.issue.state];
                     this.view.state.CSS = this.modelState2viewCSS[this.models.issue.state];
                     this.view.state.icon = this.modelState2viewIcon[this.models.issue.state];

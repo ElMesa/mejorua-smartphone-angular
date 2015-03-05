@@ -5,7 +5,13 @@
             <h2>Incidencia</h2>
         </div>
         <div class="col-sm-10">
-            <h2 id="issueDetailId">{{issue.id}}</h2>
+            <h2 id="issueDetailId">{{issue.id}}
+            </h2>
+            <!-- 
+            <span class="from-control issue state{{issue.state.value}}" ng-include="getIconURL(issue.state.value)"></span>
+            <h2 id="issueDetailId" style="display:inline">{{issue.id}}
+            </h2>
+            -->
         </div>
     </div>
 
@@ -32,11 +38,12 @@
             Estado
         </label>
         <div class="col-sm-10">
-            <div class="input-group">
-                <span id="issueDetailStateImg" class="input-group-addon {{issue.state.CSS}}">
-                            <img src="{{issue.state.icon}}">
-                        </span>
-                <input id="issueDetailState" type="text" disabled class="form-control {{issue.state.CSS}}" placeholder="Estado de la incidencia" value="{{issue.state.text}}">
+            <div class="col-sm-1">
+                <span class="from-control issue state{{issue.state.value}}" ng-include="getIconURL(issue.state.value)"></span>
+            </div>
+            <div class="col-sm-11">
+                    <input id="issueDetailState" type="text" disabled class="form-control issue state{{issue.state.value}}" placeholder="Estado de la incidencia" value="{{issue.state.text}}">
+                </div>
             </div>
         </div>
     </div>

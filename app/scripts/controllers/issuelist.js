@@ -10,9 +10,9 @@
 angular.module('mejoruaSmartphoneAngularApp')
   .controller('IssuelistCtrl', ['$scope', 'IssueDAO', function ($scope, IssueDAO) {
     
-	$scope.getIconURL = function getIconURL(state) {
-		return 'views/icons/state' + state + '.html'
-	}
+  	$scope.getIconURL = function getIconURL(state) {
+      return 'views/icons/state' + state + '.html'
+    }
 
     this.init = function init() {
         //Bind $scope issues with DAO data
