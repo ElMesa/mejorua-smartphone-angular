@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -23,6 +24,7 @@
     <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 
     <!-- MejorUA CSS -->
+    <link href="styles/utils/linear-gradient.css" rel="stylesheet">
     <link href="styles/master.css" rel="stylesheet">
     <link href="styles/header.css" rel="stylesheet">
     <link href="styles/map.css" rel="stylesheet">
@@ -77,7 +79,7 @@
                         <a href="#/issuesMap">Issues Map</a>
                     </li>
                     <li id="navbar-pageIssueDetail" ng-if="issueDetailShared.id">
-                        <a href="#/issuedetail/{{issueDetailShared.id}}">Issue Detail</a>
+                        <a href="#/issueDetail/{{issueDetailShared.id}}">Issue Detail</a>
                 </ul>
             </div>
         </div>

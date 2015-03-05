@@ -154,7 +154,7 @@ angular.module('mejoruaSmartphoneAngularApp')
                         message: '<p class="issue state' + issue.state +'"> ' + IssueBO.modelState2viewText[issue.state] + '<br/>'+
                             issue.action + '<br/>'+
                             issue.term + '<br/>'+
-                            '<a href="#/issueDetail/' + issue.id + '" class="btn btn-xs btn-block state' + issue.state + '">Ver detalles</a>'+
+                            '<a href="#/issueDetail/' + issue.id + '" class="btn btn-xs btn-block">Ver detalles</a>'+
                         '</p>'
                     }
                 }

@@ -1,0 +1,67 @@
+@import url("utils/linear-gradient.less");
+
+@buttonTransitionTime: 0.5s;
+
+@hueRed: 0;
+@hueYellow: 60;
+@hueGreen: 100;
+
+@light-2: 90%;
+@light-1: 70%;
+@light-default: 50%;
+@dark-1: 30%;
+@dark-2: 10%;
+
+.button-gradient(@hue) {
+    .linear-gradient-multi-joined(180deg, hsl(@hue, 100%, @light-2) 0%, hsl(@hue, 100%, @light-1) 10%, hsl(@hue, 100%, @light-default) 40%, hsl(@hue, 100%, @light-default) 60%, hsl(@hue, 100%, @dark-1) 95%, hsl(@hue, 100%, @dark-2) 100%);
+    border-color: hsl(@hue, 100%, @dark-2);
+}
+
+.button-gradient-hover(@hue) {
+    /* Other option
+   .linear-gradient-multi-joined(180deg, hsl(@hue, 100%, @dark-2) 0%, hsl(@hue, 100%, @dark-1) 10%, hsl(@hue, 100%, @light-default) 40%, hsl(@hue, 100%, @light-default) 60%, hsl(@hue, 100%, @light-1) 90%, hsl(@hue, 100%, @light-2) 100%);
+   */
+   .linear-gradient-multi-joined(180deg, hsl(@hue, 100%, @dark-2) 0%, hsl(@hue, 100%, @dark-1) 10%, hsl(@hue, 100%, @dark-1) 40%, hsl(@hue, 100%, @dark-1) 60%, hsl(@hue, 100%, @dark-1) 95%, hsl(@hue, 100%, @dark-2) 100%);
+    border-color: hsl(@hue, 100%, @dark-2);
+}
+
+.issue-state-button(@hue) {
+    a {
+        .button-gradient(@hue);
+    }
+    a:hover {
+        .button-gradient-hover(@hue);
+    }
+    .btn {
+        color: black;
+    }
+}
+
+.issue-state-icon(@hue) {
+    i.fa-stack-2x {
+        color: hsl(@hue, 100%, @dark-1);
+    }
+    i.fa-stack-1x {
+        color: hsl(@hue, 100%, @light-2);
+    }
+}
+
+.issue-state(@hue) {
+    background-color: hsl(@hue, 100%, @light-2);
+    
+    .issue-state-icon(@hue);
+    .issue-state-button(@hue);
+
+    transition: background-color @buttonTransitionTime;
+    transition: background-image @buttonTransitionTime ease-in-out;
+}
+
+.issue.statePENDING, tr.issue.statePENDING {
+    .issue-state(@hueRed);
+}
+.issue.stateINPROGRESS, tr.issue.stateINPROGRESS {
+    .issue-state(@hueYellow);
+}
+.issue.stateDONE, tr.issue.stateDONE {
+    .issue-state(@hueGreen);
+}

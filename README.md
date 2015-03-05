@@ -5,14 +5,23 @@ Rewrite of the client in angular
 ## Tasks
 
 * IssueMap view
+    * Fix the Less gradient experiment for buttons
     * Include marker clustering: http://tombatossals.github.io/angular-leaflet-directive/examples/markers-clustering-example.html
-    * Test map refresh on add
-* Fix IssueDetail - notify mode
+    * Marker popup - View deatils button: Use CSS preprocesor to bind ".issue a.stateX" to "btn btn-X" so we have more flexibility to change theming
+* Notify issues
+    * IssueMapCtrl - Notify process
+    * Fix IssueDetail - notify mode
 * Issue change state
 * Issue List/Map filtering
+* Users: Implement collaborators, resolvers, and resolver groups
+* Filters: Generic filtering system, {Resolver} filters list, {ResolverGroup} filters list (shared with all members)
+* Contact info: {Resolvers} & {ResolversGroup} contact info needed to resolve the action demanded
+* Materials list for rooms and activities
+* {User.collaborator} - Feedback once issue is resolved in form of satisfaction of the results (boolena, or 1-5stars, 1-10 points, list of "feelings about" like, acceptable, needs get better) Inspired by customer feedback from Salesforce service (https://www.youtube.com/watch?v=H9fR_kuJp2w#t=74)
 
 ## Research
 
+* Check Salesforce videos to get inspiration:https://www.salesforce.com/eu/form/demo/conf/demo-overview.jsp
 * IssueDAO - IssueCollection - Smart update after adding items
     * Now after post (via IssueDAO.add()) we fetch all the issues again. It would be interesting getting just the issue posted by a new request, or from de post response
         * Restangular.collection.post response returns a promise. Maybe if API returns the added item it could be retrieved from there, or at least the id of the added item, so we can perform a single request
