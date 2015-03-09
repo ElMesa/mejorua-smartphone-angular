@@ -4,14 +4,16 @@ Rewrite of the client in angular
 
 ## Tasks
 
+* Notify issues
+    * IssueMapCtrl - Notify process (fix URL arguments get/set on setNotifyMode)
+    * Fix IssueDetail - notify mode
+* IssueDetailView - Migrating from issue.view approach in the IssueBO service to raw data access (issue.models.X.Y), and doing the mapping (Ex: modelState2viewCSS) in view instead of in the service, exposing those modelState2viewCSS and so throught the controller to view. This avoids some update problems, reliying on angular bindings instead
+* BUG - On notify issue view, if backbutton to map is used, map modes crashes, and issue markers disappear
+* Issue change state
+* Issue List/Map filtering
 * IssueMap view
     * Include marker clustering: http://tombatossals.github.io/angular-leaflet-directive/examples/markers-clustering-example.html
     * Marker popup - View deatils button: Use CSS preprocesor to bind ".issue a.stateX" to "btn btn-X" so we have more flexibility to change theming
-* Notify issues
-    * IssueMapCtrl - Notify process
-    * Fix IssueDetail - notify mode
-* Issue change state
-* Issue List/Map filtering
 * Users: Implement collaborators, resolvers, and resolver groups
 * Filters: Generic filtering system, {Resolver} filters list, {ResolverGroup} filters list (shared with all members)
 * Contact info: {Resolvers} & {ResolversGroup} contact info needed to resolve the action demanded

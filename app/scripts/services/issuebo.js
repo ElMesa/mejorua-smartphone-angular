@@ -64,7 +64,8 @@ angular.module('mejoruaSmartphoneAngularApp')
             self = this;
 
             this.models = {};
-            this.models.issue = undefined; // {API.IssueTO}Underliying issue model, obtained remotelly with a shared structure between client and server
+            this.models.issue = {}; // {API.IssueTO}Underliying issue model, obtained remotelly with a shared structure between client and server
+            this.models.issue.state = 'PENDING';
             this.models.SIGUA = {}; //Remote SIGUA data to compose the view data
             this.models.SIGUA.room = undefined; // {SIGUA.Estancia}
             this.models.SIGUA.building = undefined; // {SIGUA.Edificio}
@@ -248,5 +249,31 @@ angular.module('mejoruaSmartphoneAngularApp')
                 console.log("IssueBO.updateViewData() - ERROR - No model found - model.issue missing on view update");
             }
         }
+
+        this.getFloorText = function getFloorText() {
+            var floor;
+            var floorText;
+
+            if(this.models.issue != undefined && this.models.issue.idSIGUA != undefined) {
+                floor = this.models.issue.idSIGUA.substring(4, 6);
+            } else if (this.models.floor != undefined) {
+                floor = this.models.floor;
+            }
+
+            if(floor != undefined) {
+                floorText = this.modelSIGUAFloor2viewText[floor];
+            }
+
+            return floorText;
+        }
+
+        this.getIdSIGUAFromFloorLatLng = function getIdSIGUAFromFloorLatLng(floor, lat, lng) {
+            var promise = SiguaDAO.idGetByFloorLatLng(floor, lat, lng);
+            promise.success(function(data) {
+                console.log('IssueBO.getIdSIGUAFromFloorLatLng() - fetch success data:%O', data);
+                self.models.issue.idSIGUA = data.features[0].properties.codigo;
+            });
+            return promise;
+        } 
 
     }]);

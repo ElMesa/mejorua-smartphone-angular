@@ -18,19 +18,15 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         $scope.css = {}; //Holds view css
         $scope.css.inputsDisabled = undefined; //CSS to control if inputs are disabled. Depends of "view mode" mode "readonly: to display issues" or "write: to notify issues"
-        $scope.css.hideOnRead = undefined;
 
         $scope.isModeReadOnly = undefined;
-
 
         $scope.init = function init() {
             $scope.issueBO = IssueBO.create();
             $scope.issueBO.fetch(issueDetailShared.id);
-            $scope.issue = $scope.issueBO.view;
+            $scope.issue = $scope.issueBO;
 
             $scope.css.inputsDisabled = "disabled"; //CSS to control if inputs are disabled. Depends of "view mode" mode "readonly: to display issues" or "write: to notify issues"
-
-            $scope.test = "test";
 
             $scope.isModeReadOnly = true;
         }

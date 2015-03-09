@@ -35,8 +35,13 @@
     </nav>
 <!-- /col -->
 <leaflet center="map.center" layers="map.layers.active" markers="map.markers.active" width="auto" height="60%"></leaflet>
+<!-- Contextual actions holder -->
 <div class="viewFooter">
-    <button ng-click="DEBUGissuePost()">Post random issue</button>
-    
-     BUTTON HOLDER
+    <div ng-show="!map.isNotifyMode">
+        <button ng-click="DEBUGissuePost()">Post random issue</button>
+    </div>
+    <div ng-show="map.isNotifyMode">
+        <button class="btn btn-danger" ng-click="setModeNotify(false)">Cancel</button>
+        <a href="#/issueNotify" class="btn btn-success">Notify</a>
+    </div>
 </div>

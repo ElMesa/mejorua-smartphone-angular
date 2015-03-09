@@ -10,10 +10,19 @@
 
 //REFACTOR - Decrease dependencies - Using Issue DAO and BO. Maybe using just BO will be better. For that BO needs the issuelist. Nowadays we are using the raw IssueDAO.issues fetched from API. BO is needed to get some data like the mapping issue.state 2 legible text
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('MapBO', ['IssueDAO', 'IssueBO', function(IssueDAO, IssueBO) {
+    .service('MapBO', ['IssueDAO', 'IssueBO', 'MapBOMarkerNotify', function(IssueDAO, IssueBO, MapBOMarkerNotify) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self; //Used to hold "this"
+
+        this.mapFloor2modelFloor = {
+            basement: 'PS',
+            ground: 'PB',
+            first: 'P1',
+            second: 'P2',
+            third: 'P3',
+            fourth: 'P4'
+        }
 
         this.create = function create() {
             var newMap = angular.copy(this);
@@ -23,6 +32,8 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         this.init = function init() {
             self = this;
+
+            this.isNotifyMode = false;
 
             IssueDAO.observer.subscribe("fetch", this.markersUpdate);
 
@@ -36,6 +47,8 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.initLayers();
             this.initIcons();
             this.initMarkers();
+
+            MapBOMarkerNotify.icon = this.icons.issue.state.PENDING;
         }
 
         this.initTiles = function initTiles() {
@@ -148,6 +161,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.markers.active = {};
 
             if (IssueDAO.issues != undefined) this.markersUpdate(IssueDAO.issues);
+
         }
 
         this.markersUpdate = function markersUpdate(issues) {
@@ -174,7 +188,8 @@ angular.module('mejoruaSmartphoneAngularApp')
                 }
             }
 
-            self.markers.active = markers;
+            self.markers.issues = markers;
+            if(!self.isNotifyMode) self.markersShowIssues();
 
             return markers;
         }
@@ -209,6 +224,9 @@ angular.module('mejoruaSmartphoneAngularApp')
 
             this.layers.active.overlays.floorBackground = this.layers.sigua.floor[floor].background;
             this.layers.active.overlays.floorDenomination = this.layers.sigua.floor[floor].deno;
+
+            //Update notify marker active floor
+            MapBOMarkerNotify.data.floor = this.mapFloor2modelFloor[floor];
         }
 
         this.activeFloorLayerDelete = function activeFloorLayerDelete() {
@@ -216,5 +234,28 @@ angular.module('mejoruaSmartphoneAngularApp')
             delete this.layers.active.overlays.floorDenomination;
         }
 
+        this.markersShowNotify = function markersShowNotify() {
+            MapBOMarkerNotify.lat = this.center.lat;
+            MapBOMarkerNotify.lng = this.center.lng;
+
+            this.markers.issues = this.markers.active;
+            this.markers.active = {};
+            this.markers.active.notify = MapBOMarkerNotify;
+        }
+
+        this.markersShowIssues = function markersShowIssues() {
+            this.markers.active = this.markers.issues;
+        }
+
         this.init();
-    }]);
+    }])
+.factory('MapBOMarkerNotify', function clientIdFactory() {
+    return {
+        lat: undefined, //Set on MapBO.markersShowNotify()
+        lng: undefined, //Set on MapBO.markersShowNotify()
+        icon: undefined, //Set on MapBO.init()
+        message: '<p>Drag the marker to the exact location</p>',
+        draggable: true,
+        data: {} //Holder for active floor, wich is needed to get the SIGUA id (needs floor,lat,lng)
+    };
+});

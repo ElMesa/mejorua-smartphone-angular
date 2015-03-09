@@ -29,6 +29,10 @@ angular
             templateUrl: 'views/issuedetail.html',
             controller: 'IssuedetailCtrl'
         })
+        .when('/issueNotify', {
+            templateUrl: 'views/issuedetail.html',
+            controller: 'IssuenotifyCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });

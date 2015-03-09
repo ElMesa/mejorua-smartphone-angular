@@ -8,14 +8,15 @@
  * Controller of the mejoruaSmartphoneAngularApp
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .controller('IssuemapCtrl', ['$scope', 'MapBO', 'IssueDAO', 'IssueBO', function($scope, MapBO, IssueDAO, IssueBO) {
+    .controller('IssuemapCtrl', ['$scope', 'MapBO', 'IssueDAO', 'IssueBO', '$location', function($scope, MapBO, IssueDAO, IssueBO, $location) {
 
-        $scope.map = MapBO; 
+        $scope.map = MapBO;
 
-        this.init = function init() {
+        $scope.map.isNotifyMode = $location.search().notifyMode == "true"; 
+
+        $scope.init = function init() {
+            $scope.setModeNotify($scope.map.isNotifyMode);
         }
-
-        this.init();
 
         //Another alternative is using "layer.visible" but implies having always all floor layers downloaded (better bandwith performance #perfmatters)
         $scope.setFloorLayer = function setFloorLayer(floor) {
@@ -23,6 +24,16 @@ angular.module('mejoruaSmartphoneAngularApp')
             $scope.$apply(); //¡SMELL! - Needed to refresh map view. Layers won't show unless old ones deleted first. Deleting and changing layers at the same time won't work.
 
             $scope.map.setActiveFloorLayer(floor);
+        }
+
+        $scope.setModeNotify = function setModeNotify(shouldModeNotify) {
+            if(shouldModeNotify) {
+                $location.search('notifyMode', 'true');
+                this.map.markersShowNotify();
+            } else {
+                $location.search('notifyMode', 'false');
+                this.map.markersShowIssues();
+            }
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,4 +113,5 @@ angular.module('mejoruaSmartphoneAngularApp')
             IssueDAO.add(randomIssue.models.issue);
         }
 
+        $scope.init();
     }]);
