@@ -4,9 +4,12 @@ Rewrite of the client in angular
 
 ## Tasks
 
+* Issues::Update
+    * Solve view not updated after update response
+        * Tried using $.extend(true, targetObject, updatedObject) to set values, instead of replacing the whole object (http://stackoverflow.com/questions/9454863/updating-javascript-object-property)
+    
 * Notify issues
-    * IssueMapCtrl - Notify process (fix URL arguments get/set on setNotifyMode)
-    * Fix IssueDetail - notify mode
+    * Add user visual feedback and maybe redirection to map or issue details of generated issue
 * IssueDetailView - Migrating from issue.view approach in the IssueBO service to raw data access (issue.models.X.Y), and doing the mapping (Ex: modelState2viewCSS) in view instead of in the service, exposing those modelState2viewCSS and so throught the controller to view. This avoids some update problems, reliying on angular bindings instead
 * BUG - On notify issue view, if backbutton to map is used, map modes crashes, and issue markers disappear
 * Issue change state

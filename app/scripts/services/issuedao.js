@@ -41,26 +41,14 @@ angular.module('mejoruaSmartphoneAngularApp')
             return this.issuesPromise;
         }
 
-        /*
+        
         //Cached getAll. Cached locally at service this.issues. If no cached info detected, request is send
         this.getAll = function getAll() {
-            if (this.issuesPromise == undefined || this.issues == undefined) {
-                this.issuesPromise = this.dao.getList();
-                this.issuesPromise.then(function(issues) {
-                    //$.extend(self.issues, issues);
-                    self.issues = issues;
-                });
-            } else {
-                //self.issues = this.issues.getList().$object;
-                this.issuesPromise = this.dao.getList();
-                this.issuesPromise.then(function(issues) {
-                    self.issues = issues;
-                });
-            }
+            if (this.issuesPromise == undefined) this.getAllRemote();
             return this.issuesPromise;
         }
-        */
-        this.getAll = function getAll() {
+        
+        this.getAllRemote = function getAllRemote() {
             this.issuesPromise = this.dao.getList();
             this.issuesPromise.then(function(issues) {
                 self.issues = issues;
@@ -92,9 +80,15 @@ angular.module('mejoruaSmartphoneAngularApp')
         */
 
         this.add = function add(issue) {
+                        
             this.issues.post(issue).then(function() {
                 self.getAll();
             });
+        }
+
+        this.update = function update(issue) {
+            //FIX - The use of copy comes from a Restangular BUG on put(): It uses originally fetched data on put, instead the modified one (https://github.com/mgonto/restangular/issues/713)
+            return Restangular.copy(issue).put();
         }
 
         this.init();

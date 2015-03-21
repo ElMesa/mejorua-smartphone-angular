@@ -16,6 +16,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         $scope.css.inputsDisabled = undefined; //CSS to control if inputs are disabled. Depends of "view mode" mode "readonly: to display issues" or "write: to notify issues"
 
         $scope.isModeReadOnly = undefined;
+        $scope.isModeNotify = undefined;
 
         $scope.init = function init() {
             $scope.issueBO = IssueBO.create();
@@ -31,6 +32,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             $scope.issueNotify.updateViewData();
 
             $scope.setModeReadOnly(false);
+            $scope.isModeNotify = true;
         }
 
         $scope.setModeReadOnly = function setModeReadOnly(isModeReadOnly) {

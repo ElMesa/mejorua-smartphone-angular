@@ -1,7 +1,5 @@
 <form id="{{issue.view.id}}" class="issueDetail form-horizontal" role="form">
 
-    <h1>DEBUG IDSIGUA {{issue.models.issue.idSIGUA}}</h1>
-
     <div class="form-group">
         <div class="col-sm-2">
             <h2>Incidencia</h2>
@@ -51,6 +49,25 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group" ng-show="issue.models.issue.creationDate">
+        <label for="issueDetail_creationDate" class="col-sm-2 control-label">
+            Creada
+        </label>
+        <div class="col-sm-10">
+            <p id="issueDetail_creationDate" class="form-control-static">{{issue.models.issue.creationDate | myLongDateFromMiliseconds}}</p>
+        </div>
+    </div>
+
+    <div class="form-group" ng-show="issue.models.issue.lastModifiedDate">
+        <label for="issueDetail_lastModifiedDate" class="col-sm-2 control-label">
+            Modificada
+        </label>
+        <div class="col-sm-10">
+            <p id="issueDetail_lastModifiedDate" class="form-control-static">{{issue.models.issue.lastModifiedDate | myLongDateFromMiliseconds}}</p>
+        </div>
+    </div>
+
     <div class="form-group" ng-show="issue.view.SIGUA.headquarters.name">
         <label for="issueDetail_SIGUASede" class="col-sm-2 control-label">
             Sede
@@ -150,9 +167,31 @@
         </div>
     </div>
 
-    <div class="row" ng-hide="isModeReadOnly">
+    <div class="row" ng-show="userCan.issue.edit">
         <div class="col-sm-offset-2 col-sm-10">
-            <button ng-click="notifyIssue()" class="submit btn btn-success btn-block" >Notificar</button>
+
+            <button ng-show="isModeReadOnly" ng-click="setModeReadOnly(false)" class="btn btn-warning btn-block">Edit</button>
+            <div ng-hide="isModeReadOnly" class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button ng-click="setModeReadOnly(true)" class="btn btn-danger">Cancel</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button ng-click="issueEditConfirm()" class="submit btn btn-success">Confirm edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="isModeNotify">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <a href="#/issuesMap?notifyMode=false" class="btn btn-danger">Cancel</a>
+                </div>
+                <div class="btn-group" role="group">
+                    <button ng-click="notifyIssue()" class="submit btn btn-success">Notificar</button>
+                </div>
+            </div>
         </div>
     </div>
 </form>

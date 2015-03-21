@@ -14,11 +14,15 @@ angular.module('mejoruaSmartphoneAngularApp')
       return 'views/icons/state' + state + '.html'
     }
 
+    $scope.issues = IssueDAO.getAll().$object;
+
     this.init = function init() {
         //Bind $scope issues with DAO data
+        /*
         IssueDAO.getIssuesPromise().then(function() {
             $scope.issues = IssueDAO.issues;    
         });
+        */
     }
 
     this.init();

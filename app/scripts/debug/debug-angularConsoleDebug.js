@@ -1,4 +1,4 @@
-//Helpers/Aliases to ease angular console debugging
+//Helpers to ease angular console debugging
 
 var DEBUG = DEBUG || {};
 
@@ -8,6 +8,16 @@ var DEBUG = DEBUG || {};
 
         this.targetScopeId = "view_mainContent";
         this.scopeActive = undefined; //The actual angular scope gathered
+
+        this.get = function get() {
+            var getted;
+
+            if (this._scopeCheckAndGather()) {
+                var getted = this.scopeActive[attribute];
+            }
+
+            return getted;
+        }
 
         //Setter for angular scopes. Includes aplying changes to update bindings (So views react acordinglly and enables a rough debugging)
         this.set = function set(attribute, value) {
@@ -64,6 +74,20 @@ var DEBUG = DEBUG || {};
             }
         }
 
+        this.debugLastModifiedDate = function debugLastModifiedDate() {
+            if (this._scopeCheckAndGather()) {
+                var issue;
+                var issueEditing;
+
+                if(this.scopeActive.issue && this.scopeActive.issue.models && this.scopeActive.issue.models.issue) issue = this.scopeActive.issue.models.issue;
+                if(this.scopeActive.issueEditing && this.scopeActive.issueEditing.models && this.scopeActive.issueEditing.models.issue) issueEditing = this.scopeActive.issueEditing.models.issue;
+
+                if(issue.lastModifiedDate) console.log('debugLastModifiedDate() - issue       : %O', Date(issue.lastModifiedDate));
+                if(issueEditing.lastModifiedDate) console.log('debugLastModifiedDate() - issueEditing: %O', Date(issueEditing.lastModifiedDate));
+                
+            }
+        }
+
         this._scopeCheckAndGather = function _scopeCheckAndGather() {
             var done = true;
 
@@ -94,19 +118,3 @@ var DEBUG = DEBUG || {};
 
 })();
 
-//Aliases (yeah, polluting global, im a noobster)
-function ls() {
-    return DEBUG.angularScope.list();
-}
-
-function set(attribute, value) {
-    DEBUG.angularScope.set(attribute, value);
-}
-
-function toggle(attribute) {
-    DEBUG.angularScope.toggle(attribute);
-}
-
-function debugEvents() {
-    DEBUG.angularScope.debugEvents();
-}

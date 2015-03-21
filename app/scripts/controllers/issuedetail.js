@@ -12,6 +12,7 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         $scope.issueBO = undefined; //Holds the bussiness object of the shown issue
         $scope.issue = undefined; // Holds issueBO.view, the object composed of remote issue + presentation data (example: for a given state, url of icon, css class)
+        $scope.issueEditing = undefined;
 
         //Binding actual issue detail to show by ts id to shared service issueDetailShared
         issueDetailShared.id = $routeParams.issueId;
@@ -26,13 +27,35 @@ angular.module('mejoruaSmartphoneAngularApp')
             $scope.issueBO.fetch(issueDetailShared.id);
             $scope.issue = $scope.issueBO;
 
-            $scope.css.inputsDisabled = "disabled"; //CSS to control if inputs are disabled. Depends of "view mode" mode "readonly: to display issues" or "write: to notify issues"
+            $scope.setModeReadOnly(true);
 
-            $scope.isModeReadOnly = true;
+            //DEBUG - This {userCan} shoould came from a user/controll service depending on role/user privileges
+            $scope.userCan = {}
+            $scope.userCan.issue = {};
+            $scope.userCan.issue.edit = true;
+        }
+
+        $scope.setModeReadOnly = function setModeReadOnly(isModeReadOnly) {
+            $scope.isModeReadOnly = isModeReadOnly;
+
+            if (isModeReadOnly) {
+                $scope.css.inputsDisabled = "disabled";
+                $scope.issue = $scope.issueBO;
+            }
+            else {
+                $scope.css.inputsDisabled = "";
+                $scope.issueEditing = angular.copy($scope.issueBO);
+                $scope.issue = $scope.issueEditing;
+            }
         }
 
         $scope.getIconURL = function getIconURL(state) {
             return 'views/icons/state' + state + '.html'
+        }
+
+        $scope.issueEditConfirm = function issueEditConfirm() {
+            $scope.issueEditing.update();
+
         }
 
         $scope.init();

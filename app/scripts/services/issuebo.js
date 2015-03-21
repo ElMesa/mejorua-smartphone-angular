@@ -105,7 +105,6 @@ angular.module('mejoruaSmartphoneAngularApp')
         
         //Fetch using provided id or use embebed model id if no id provided. Returns a promise.
         this.fetch = function fetch(issueId) {
-            var fetchPromise;
 
             //Id selection
             if (issueId == undefined) {
@@ -117,14 +116,23 @@ angular.module('mejoruaSmartphoneAngularApp')
             }
 
             //Fetch
-            fetchPromise = IssueDAO.getById(issueId);
-            fetchPromise.then(function(issue) {
+            this.daoPromise = IssueDAO.getById(issueId);
+            this.daoPromise.then(function(issue) {
                 self.models.issue = issue;
                 self.updateSIGUAData();
                 self.updateViewData(["API.issue"]);
             });
 
-            return fetchPromise;
+            return this.daoPromise;
+        }
+
+        this.update = function update() {
+            var promise = IssueDAO.update(this.models.issue).then(function(updatedIssue) {
+                //self.models.issue = updatedIssue;
+                $.extend(true, self.models.issue, updatedIssue);
+            });
+
+            return promise;
         }
 
         this.updateSIGUAData = function updateSIGUAData() {

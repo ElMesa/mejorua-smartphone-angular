@@ -43,4 +43,29 @@ angular
     return function(theDate) {
        return angularDateFilter(theDate, 'dd/MM/yyyy');
     }
+})
+
+.filter('myLongDate', function($filter) {    
+    var angularDateFilter = $filter('date');
+    return function(theDate) {
+       return angularDateFilter(theDate, 'dd/MM/yyyy HH:mm:ss');
+    }
+})
+
+.filter('myShortDateFromMiliseconds', function($filter) {    
+    //var angularDateFilter = $filter('date');
+    var myShortDateFilter = $filter('myShortDate');
+    return function(dateMiliseconds) {
+        var theDate = new Date(dateMiliseconds);
+        //return angularDateFilter(theDate, 'dd/MM/yyyy');
+        return myShortDateFilter(theDate);
+    }
+})
+
+.filter('myLongDateFromMiliseconds', function($filter) {    
+    var myLongDateFilter = $filter('myLongDate');
+    return function(dateMiliseconds) {
+        var theDate = new Date(dateMiliseconds);
+        return myLongDateFilter(theDate);
+    }
 });
