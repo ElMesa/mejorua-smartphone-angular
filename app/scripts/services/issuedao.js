@@ -8,7 +8,7 @@
  * Service in the mejoruaSmartphoneAngularApp.
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('IssueDAO', ['Restangular', 'ObserverService', function(Restangular, ObserverService) {
+    .service('IssueDAO', ['Restangular', 'ObserverService', '$http', function(Restangular, ObserverService, $http) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self;
@@ -41,13 +41,13 @@ angular.module('mejoruaSmartphoneAngularApp')
             return this.issuesPromise;
         }
 
-        
+
         //Cached getAll. Cached locally at service this.issues. If no cached info detected, request is send
         this.getAll = function getAll() {
             if (this.issuesPromise == undefined) this.getAllRemote();
             return this.issuesPromise;
         }
-        
+
         this.getAllRemote = function getAllRemote() {
             this.issuesPromise = this.dao.getList();
             this.issuesPromise.then(function(issues) {
@@ -80,7 +80,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         */
 
         this.add = function add(issue) {
-                        
+
             this.issues.post(issue).then(function() {
                 self.getAll();
             });

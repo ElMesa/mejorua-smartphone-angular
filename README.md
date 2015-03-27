@@ -4,6 +4,11 @@ Rewrite of the client in angular
 
 ## Tasks
 
+* RoomElementsDAO
+    * Check correct RoomElementIndex creation. Room SIGUA:0007PB017 UGE:0003 should have more than 1 item, but only one appearing.
+
+* IssueNotify - Use RoomElements data on view
+
 * Issues::Update
     * Solve view not updated after update response
         * Tried using $.extend(true, targetObject, updatedObject) to set values, instead of replacing the whole object (http://stackoverflow.com/questions/9454863/updating-javascript-object-property)
