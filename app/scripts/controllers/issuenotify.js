@@ -26,6 +26,8 @@ angular.module('mejoruaSmartphoneAngularApp')
             $scope.issueBO = IssueBO.create();
             $scope.issueBO.updateViewData();
 
+            $scope.targetIndex = -1;
+
             $scope.issueNotify = IssueBO.create();
             //$scope.issueNotify.models.issue.term = $scope.RoomElementsDAO......;
             $scope.issueNotify.models.issue.latitude = MapBOMarkerNotify.lat;
@@ -70,6 +72,11 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         $scope.notifyIssue = function notifyIssue() {
+            var elementtypeId = $scope.roomElements[$scope.targetIndex].typeId;
+            var elementId = $scope.roomElements[$scope.targetIndex].id;
+
+            $scope.issueNotify.setTarget('ELEMENT', elementtypeId, elementId, undefined);
+
             IssueDAO.add($scope.issueNotify.models.issue);
         }
 

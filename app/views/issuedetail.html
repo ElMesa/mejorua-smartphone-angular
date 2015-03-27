@@ -1,6 +1,7 @@
 <form id="{{issue.view.id}}" class="issueDetail form-horizontal" role="form">
 
     <h3>DEBUG roomElements: {{roomElements}}</h3>
+    <h3>DEBUG targetIndex: {{targetIndex}}</h3>
 
     <div class="form-group">
         <div class="col-sm-2">
@@ -38,8 +39,9 @@
         <!--
             <input ng-model="issue.models.issue.term" type="text" ng-disabled="isModeReadOnly" class="form-control {{css.inputsDisabled}}" placeholder="Objetivo de la acción a realizar en la incidencia">
         -->
-            <select class="form-control">
-                <option ng-repeat="element in roomElements track by $index" value="{{element.typeId}}-{{element.id}}">{{element.description}}</option>
+            <select class="form-control" ng-model="targetIndex">
+                <option value="-1" disabled>Elija el objetivo de la incidencia</option>
+                <option ng-repeat="element in roomElements track by $index" value="{{$index}}">{{element.description}}</option>
             </select>
         </div>
         

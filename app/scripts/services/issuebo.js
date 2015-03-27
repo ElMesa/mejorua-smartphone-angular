@@ -282,6 +282,15 @@ angular.module('mejoruaSmartphoneAngularApp')
                 self.models.issue.idSIGUA = data.features[0].properties.codigo;
             });
             return promise;
-        } 
+        }
+
+        this.setTarget = function setTarget(type, typeId, id, genericDesciption) {
+            this.models.issue.target = {
+                type: type,
+                typeId: typeId,
+                id: id,
+                genericDesciption: genericDesciption
+            };
+        }
 
     }]);
