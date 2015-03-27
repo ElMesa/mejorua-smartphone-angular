@@ -110,8 +110,20 @@ angular.module('mejoruaSmartphoneAngularApp')
             return initRoomElementsDeferred.promise;
         }
 
-        this.getAll = function getAll() {
+        this.getById = function getById(typeId, id) {
+            var deferred = $q.defer();
+            var element;
 
+            self.initRoomElementsPromise.then(function() {
+                if(self.types != undefined && self.types[typeId] != undefined && self.types[typeId].subtype[id] != undefined) {
+                    element = self.types[typeId].subtype[id];
+                    deferred.resolve(element);
+                } else {
+                    deferred.reject('Could nor retrieve element');
+                }
+            });
+
+            return deferred.promise;
         }
 
         this.getBySIGUARoomId = function getBySIGUARoomId(SIGUARoomId) {

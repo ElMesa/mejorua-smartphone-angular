@@ -25,9 +25,15 @@ angular.module('mejoruaSmartphoneAngularApp')
         $scope.init = function init() {
             $scope.issueBO = IssueBO.create();
             $scope.issueBO.fetch(issueDetailShared.id);
+            $scope.issueBO.getTargetText().then(function (text) {
+                $scope.targetText = text;
+            }); 
             $scope.issue = $scope.issueBO;
+            
 
             $scope.setModeReadOnly(true);
+
+
 
             //DEBUG - This {userCan} shoould came from a user/controll service depending on role/user privileges
             $scope.userCan = {}

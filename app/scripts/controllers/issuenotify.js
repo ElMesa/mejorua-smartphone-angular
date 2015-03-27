@@ -20,7 +20,6 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         //DEBUG
         $scope.RoomElementsDAO = RoomElementsDAO;
-        RoomElementsDAO.getAll();
 
         $scope.init = function init() {
             $scope.issueBO = IssueBO.create();
@@ -29,7 +28,6 @@ angular.module('mejoruaSmartphoneAngularApp')
             $scope.targetIndex = -1;
 
             $scope.issueNotify = IssueBO.create();
-            //$scope.issueNotify.models.issue.term = $scope.RoomElementsDAO......;
             $scope.issueNotify.models.issue.latitude = MapBOMarkerNotify.lat;
             $scope.issueNotify.models.issue.longitude = MapBOMarkerNotify.lng;
             $scope.issueNotify.models.floor = MapBOMarkerNotify.data.floor;

@@ -8,7 +8,7 @@
  * Service in the mejoruaSmartphoneAngularApp.
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('IssueBO', ['IssueDAO', 'SiguaDAO', function(IssueDAO, SiguaDAO) {
+    .service('IssueBO', ['$q','IssueDAO', 'SiguaDAO', 'RoomElementsDAO', function($q, IssueDAO, SiguaDAO, RoomElementsDAO) {
         // AngularJS will instantiate a singleton by calling "new" on this function
         var self; //Used to hold "this"
 
@@ -273,6 +273,37 @@ angular.module('mejoruaSmartphoneAngularApp')
             }
 
             return floorText;
+        }
+
+        this.getTargetText = function getTargetText() {
+            var deferred = $q.defer();
+            var text;
+            var target;
+
+            this.daoPromise.then(function(issue) {
+
+                if(self.models.issue != undefined && self.models.issue.target != undefined) {
+                    target = self.models.issue.target;
+                    switch (target.type) {
+                        case "GENERIC":
+                            deferred.resolve(target.genericDesciption);
+                            break;
+                        case "ELEMENT":
+                            RoomElementsDAO.getById(target.typeId, target.id).then(function (element) {
+                                deferred.resolve(element.description.es);
+                            });
+                            break;
+                        case "CHARACTERISTIC":
+                            //text = RoomCharacterosticsDAO.types[target.typeId].subtypes[target.id].description.es;
+                            break;
+                        default:
+                            deferred.reject('Unknown target type');
+                            break;
+                    }
+                }
+            });
+
+            return deferred.promise;
         }
 
         this.getIdSIGUAFromFloorLatLng = function getIdSIGUAFromFloorLatLng(floor, lat, lng) {
