@@ -50,7 +50,7 @@
         </label>
         <div class="col-sm-10">
             <div class="col-sm-1">
-                <span class="from-control issue state{{issue.view.state.value}}" ng-include="getIconURL(issue.view.state.value)"></span>
+                <span class="from-control issue state{{issue.view.state.value}}" ng-class="" ng-include="getIconURL(issue.view.state.value)"></span>
             </div>
             <div class="col-sm-11">
                     <input id="issueDetailState" type="text" disabled class="form-control issue state{{issue.view.state.value}}" placeholder="Estado de la incidencia" value="{{issue.view.state.text}}">

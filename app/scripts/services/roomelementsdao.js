@@ -81,7 +81,6 @@ angular.module('mejoruaSmartphoneAngularApp')
             UAPIPromise = $http.jsonp(self.getUAOpenData_datasetURL(self.DATASETID_ROOMUGEDATA, 'data') + '?callback=JSON_CALLBACK');
 
             UAPIPromise.success(function(data, status, headers, config) {
-                console.log('RoomElementsDAO.init() -> initUGE() - Fetch DATASET_ROOMELEMENTS DATA - SUCCESS - data:%O, status:%O, headers:%O, config:%O', data, status, headers, config);
                 self.import_UGE_RoomData(data, UGEdeferred);
             });
             UAPIPromise.error(function(data, status, headers, config) {
@@ -99,7 +98,6 @@ angular.module('mejoruaSmartphoneAngularApp')
             promiseFetchData = $http.jsonp(self.getUAOpenData_datasetURL(self.DATASETID_ROOMELEMENTS, 'data') + '?callback=JSON_CALLBACK');
 
             promiseFetchData.success(function(data, status, headers, config) {
-                console.log('RoomElementsDAO.init() -> initRoomElements() - Fetch DATASET_ROOMELEMENTS DATA - SUCCESS - data:%O, status:%O, headers:%O, config:%O', data, status, headers, config);
                 self.import_UAPI_RoomElements(data, initRoomElementsDeferred);
             });
             promiseFetchData.error(function(data, status, headers, config) {

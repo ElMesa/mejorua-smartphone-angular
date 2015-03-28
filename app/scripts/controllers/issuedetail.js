@@ -23,17 +23,26 @@ angular.module('mejoruaSmartphoneAngularApp')
         $scope.isModeReadOnly = undefined;
 
         $scope.init = function init() {
+            /*
             $scope.issueBO = IssueBO.create();
-            $scope.issueBO.fetch(issueDetailShared.id);
-            $scope.issueBO.getTargetText().then(function (text) {
-                $scope.targetText = text;
+            IssueBO.fetch(issueDetailShared.id);
+            $scope.issueBO.getTargetText().then(function (data) {
+                $scope.targetText = data.text;
             }); 
             $scope.issue = $scope.issueBO;
-            
+            */
+           
+            IssueBO.fetch(issueDetailShared.id).then(function(issueBO) {
+                $scope.issueBO = issueBO;
 
+                $scope.issueBO.getTargetText().then(function (data) {
+                    $scope.targetText = data.text;
+                });
+                
+                $scope.setModeReadOnly(true);
+            });
+           
             $scope.setModeReadOnly(true);
-
-
 
             //DEBUG - This {userCan} shoould came from a user/controll service depending on role/user privileges
             $scope.userCan = {}
@@ -56,7 +65,8 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         $scope.getIconURL = function getIconURL(state) {
-            return 'views/icons/state' + state + '.html'
+            if(state != undefined) return 'views/icons/state' + state + '.html';
+            else return undefined;
         }
 
         $scope.issueEditConfirm = function issueEditConfirm() {

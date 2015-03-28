@@ -66,7 +66,8 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         $scope.getIconURL = function getIconURL(state) {
-            return 'views/icons/state' + state + '.html'
+            if(state != undefined) return 'views/icons/state' + state + '.html';
+            else return undefined;
         }
 
         $scope.notifyIssue = function notifyIssue() {

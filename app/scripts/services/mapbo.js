@@ -10,7 +10,7 @@
 
 //REFACTOR - Decrease dependencies - Using Issue DAO and BO. Maybe using just BO will be better. For that BO needs the issuelist. Nowadays we are using the raw IssueDAO.issues fetched from API. BO is needed to get some data like the mapping issue.state 2 legible text
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('MapBO', ['IssueDAO', 'IssueBO', 'MapBOMarkerNotify', function(IssueDAO, IssueBO, MapBOMarkerNotify) {
+    .service('MapBO', ['$q', 'IssueDAO', 'IssueBO', 'MapBOMarkerNotify', function($q, IssueDAO, IssueBO, MapBOMarkerNotify) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self; //Used to hold "this"
@@ -130,10 +130,10 @@ angular.module('mejoruaSmartphoneAngularApp')
                 //iconSize: iconSize,
                 //iconAnchor: [(iconSize[0] / 2), iconSize[1]],
                 //popupAnchor: [0, -iconSize[1]]
-                type:'awesomeMarker',
+                type: 'awesomeMarker',
                 prefix: 'fa'
             };
-            
+
             this.icons.issue = {};
             this.icons.issue.state = {};
             this.icons.issue.state.PENDING = angular.copy(this.icons.template);
@@ -153,7 +153,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             //this.icons.issue.state.INPROGRESS.extraClasses = 'colorYellow';
 
             this.icons.issue.state.DONE.icon = 'check';
-            this.icons.issue.state.DONE.markerColor = 'green';   
+            this.icons.issue.state.DONE.markerColor = 'green';
         }
 
         this.initMarkers = function initMarkers() {
@@ -164,34 +164,42 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         }
 
-        this.markersUpdate = function markersUpdate(issues) {
-            console.log("MapBO - markersUpdate(issues:%O) ", issues);
-            var markers = {};
-            var issue;
+        this.markersUpdate = function markersUpdate() {
+            var deferred = $q.defer();
 
-            if (issues != undefined) {
+            IssueBO.getAll().then(function(issues) {
+                console.log("MapBO - markersUpdate() ->  IssueBO.getAll().then() - issues:%O", issues);
 
-                for (var i = 0; i < issues.length; i++) {
-                    issue = issues[i];
+                var markers = {};
+                var issueBO;
+                var remoteIssue;
 
-                    markers[issue.idSIGUA] = {
-                        //group: "ua",
-                        lat: issue.latitude,
-                        lng: issue.longitude,
-                        icon: self.icons.issue.state[issue.state],
-                        message: '<p class="issue state' + issue.state +'"> ' + IssueBO.modelState2viewText[issue.state] + '<br/>'+
-                            issue.action + '<br/>'+
-                            issue.term + '<br/>'+
-                            '<a href="#/issueDetail/' + issue.id + '" class="btn btn-xs btn-block">Ver detalles</a>'+
-                        '</p>'
+                if (issues != undefined) {
+
+                    for (var i = 0; i < issues.length; i++) {
+                        issueBO = issues[i];
+                        remoteIssue = issueBO.models.issue;
+
+                        markers[remoteIssue.idSIGUA] = {
+                            //group: "ua",
+                            lat: remoteIssue.latitude,
+                            lng: remoteIssue.longitude,
+                            icon: self.icons.issue.state[remoteIssue.state],
+                            message: '<p class="issue state' + remoteIssue.state + '"> ' + issueBO.modelState2viewText[remoteIssue.state] + '<br/>' +
+                                remoteIssue.action + '<br/>' +
+                                remoteIssue.term + '<br/>' +
+                                '<a href="#/issueDetail/' + remoteIssue.id + '" class="btn btn-xs btn-block">Ver detalles</a>' +
+                                '</p>'
+                        }
                     }
                 }
-            }
 
-            self.markers.issues = markers;
-            if(!self.isNotifyMode) self.markersShowIssues();
+                self.markers.issues = markers;
+                if (!self.isNotifyMode) self.markersShowIssues();
 
-            return markers;
+            });
+
+            return deferred.promise;
         }
 
         this.newLayerConfig = function newLayerConfig(url, isFloor) {
@@ -249,13 +257,13 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         this.init();
     }])
-.factory('MapBOMarkerNotify', function clientIdFactory() {
-    return {
-        lat: undefined, //Set on MapBO.markersShowNotify()
-        lng: undefined, //Set on MapBO.markersShowNotify()
-        icon: undefined, //Set on MapBO.init()
-        message: '<p>Drag the marker to the exact location</p>',
-        draggable: true,
-        data: {} //Holder for active floor, wich is needed to get the SIGUA id (needs floor,lat,lng)
-    };
-});
+    .factory('MapBOMarkerNotify', function clientIdFactory() {
+        return {
+            lat: undefined, //Set on MapBO.markersShowNotify()
+            lng: undefined, //Set on MapBO.markersShowNotify()
+            icon: undefined, //Set on MapBO.init()
+            message: '<p>Drag the marker to the exact location</p>',
+            draggable: true,
+            data: {} //Holder for active floor, wich is needed to get the SIGUA id (needs floor,lat,lng)
+        };
+    });

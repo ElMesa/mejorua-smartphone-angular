@@ -60,7 +60,6 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         //Uncached getById
         this.getById = function getById(issueId) {
-            console.log('IssueDAO.getById(issueId: %O)', issueId);
             return this.dao.get(issueId);
         }
 

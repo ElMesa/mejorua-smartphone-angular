@@ -11,12 +11,12 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="issue in issues track by $index" class="issue state{{issue.state}}">
-            <td>{{issue.creationDate | myShortDate}}</td>
-            <td ng-include="getIconURL(issue.state)"></td>
-            <td>{{issue.action}}</td>
-            <td>{{issue.term}}</td>
-            <td><a href="#/issueDetail/{{issue.id}}" class="btn">View details</a>
+        <tr ng-repeat="issueBO in issues track by $index" class="issue state{{issueBO.models.issue.state}}">
+            <td>{{issueBO.models.issue.creationDate | myShortDate}}</td>
+            <td ng-include="getIconURL(issueBO.models.issue.state)"></td>
+            <td>{{issueBO.models.issue.action}}</td>
+            <td>{{targetText[issueBO.models.issue.id]}}</td>
+            <td><a href="#/issueDetail/{{issueBO.models.issue.id}}" class="btn">View details</a>
             </td>
         </tr>
     </tbody>
