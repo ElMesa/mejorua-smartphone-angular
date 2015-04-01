@@ -10,12 +10,23 @@
 angular.module('mejoruaSmartphoneAngularApp')
     .controller('IssuemapCtrl', ['$scope', 'MapBO', 'IssueDAO', 'IssueBO', '$location', function($scope, MapBO, IssueDAO, IssueBO, $location) {
 
-        $scope.map = MapBO;
+        $scope.map;
+        $scope.targetTextIndex;
 
-        $scope.map.isNotifyMode = $location.search().notifyMode == "true"; 
+        //$scope.test = "test";
+        angular.extend($scope, { test : "test"});
 
         $scope.init = function init() {
+            $scope.map = MapBO;
+            $scope.map.init($scope);
+
+            $scope.map.isNotifyMode = $location.search().notifyMode == "true";
             $scope.setModeNotify($scope.map.isNotifyMode);
+            
+            IssueBO.getTargetTextIndex().then(function(targetTextIndex) {
+                $scope.targetTextIndex = targetTextIndex;
+                $scope.map.markersUpdate();
+            });
         }
 
         //Another alternative is using "layer.visible" but implies having always all floor layers downloaded (better bandwith performance #perfmatters)
@@ -27,7 +38,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         $scope.setModeNotify = function setModeNotify(shouldModeNotify) {
-            if(shouldModeNotify) {
+            if (shouldModeNotify) {
                 $location.search('notifyMode', 'true');
                 this.map.markersShowNotify();
             } else {
@@ -44,7 +55,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         ///
         //////////////////////////////////////////////////////////////////////////////////////////////////
         $scope.issueDAO = IssueDAO;
-        $scope.issues = IssueDAO.issues; 
+        $scope.issues = IssueDAO.issues;
 
         function DEBUGinit() {
             //$scope.map.markers.active.test = DEBUGmarkerSingleTest;
@@ -109,7 +120,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         $scope.DEBUGissuePost = function DEBUGissuePost() {
-            var randomIssue = IssueBO.createRandom(); 
+            var randomIssue = IssueBO.createRandom();
             IssueDAO.add(randomIssue.models.issue);
         }
 

@@ -6,6 +6,11 @@
  * @description
  * # MapBO
  * Service in the mejoruaSmartphoneAngularApp.
+ *
+ * Notice this is the only one service not self initialised. Thats
+ * beacuse it needs the Controller.$scope to use data binding in
+ * the markers popup message. (Holded in "this.targetScope" and used in
+ * "this.markersUpdate()" )
  */
 
 //REFACTOR - Decrease dependencies - Using Issue DAO and BO. Maybe using just BO will be better. For that BO needs the issuelist. Nowadays we are using the raw IssueDAO.issues fetched from API. BO is needed to get some data like the mapping issue.state 2 legible text
@@ -14,6 +19,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self; //Used to hold "this"
+        this.targetScope;
 
         this.mapFloor2modelFloor = {
             basement: 'PS',
@@ -30,8 +36,10 @@ angular.module('mejoruaSmartphoneAngularApp')
             return newMap;
         }
 
-        this.init = function init() {
+        this.init = function init($scope) {
             self = this;
+
+            this.targetScope = $scope;
 
             this.isNotifyMode = false;
 
@@ -187,9 +195,13 @@ angular.module('mejoruaSmartphoneAngularApp')
                             icon: self.icons.issue.state[remoteIssue.state],
                             message: '<p class="issue state' + remoteIssue.state + '"> ' + issueBO.modelState2viewText[remoteIssue.state] + '<br/>' +
                                 remoteIssue.action + '<br/>' +
-                                remoteIssue.term + '<br/>' +
+                                'targetText[remoteIssue.id]:{{targetTextIndex[remoteIssue.id]}}<br/>' +
                                 '<a href="#/issueDetail/' + remoteIssue.id + '" class="btn btn-xs btn-block">Ver detalles</a>' +
-                                '</p>'
+                                'test:{{test}}</p>',
+                            getMessageScope: function () { 
+                                return self.targetScope;
+                            },
+                            compileMessage: true
                         }
                     }
                 }
@@ -255,7 +267,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.markers.active = this.markers.issues;
         }
 
-        this.init();
+        //this.init();
     }])
     .factory('MapBOMarkerNotify', function clientIdFactory() {
         return {

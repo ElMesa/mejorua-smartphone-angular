@@ -382,6 +382,33 @@ angular.module('mejoruaSmartphoneAngularApp')
             return deferred.promise;
         }
 
+        this.getTargetTextIndex = function getTargetText() {
+            var deferred = $q.defer();
+
+            self.targetTextIndex = {};
+
+            this.getAll().then(function(issues) {
+                var issueBO;
+
+                self.targetTextIndexSyncCount = issues.length;
+
+                for (var i = 0; i < issues.length; i++) {
+                    issueBO = issues[i];
+
+                    issueBO.getTargetText().then(function(data) {
+                        var issueId = data.issueBO.models.issue.id;
+                        self.targetTextIndex[issueId] = data.text;
+
+                        self.targetTextIndexSyncCount--;
+                        if(self.targetTextIndexSyncCount == 0) deferred.resolve(self.targetTextIndex);
+                    });
+
+                }
+            });
+
+            return deferred.promise;
+        }
+
         //this.init();
 
     }]);
