@@ -8,43 +8,66 @@
  * Controller of the mejoruaSmartphoneAngularApp
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .controller('IssuemapCtrl', ['$scope', 'MapBO', 'IssueDAO', 'IssueBO', '$location', function($scope, MapBO, IssueDAO, IssueBO, $location) {
+    .controller('IssuemapCtrl', ['$scope', 'MapBO', 'MapBOExports', 'IssueDAO', 'IssueBO', '$location', function($scope, MapBO, MapBOExports, IssueDAO, IssueBO, $location) {
 
         $scope.map;
         $scope.targetTextIndex;
 
         //$scope.test = "test";
-        angular.extend($scope, { test : "test"});
+        angular.extend($scope, {
+            test: "test"
+        });
 
         $scope.init = function init() {
             $scope.map = MapBO;
             $scope.map.init($scope);
 
-            $scope.map.isNotifyMode = $location.search().notifyMode == "true";
-            $scope.setModeNotify($scope.map.isNotifyMode);
-            
+            //$scope.map.isNotifyMode = $location.search().notifyMode == "true";
+            //$scope.setModeNotify($scope.isNotifyMode);
+            /*
+            $scope.IssuemapCtrlExport = IssuemapCtrlExport;
+            //$scope.isNotifyMode = IssuemapCtrlExport.getIsNotifyMode();
+            $scope.isNotifyMode = IssuemapCtrlExport.isNotifyMode;
+            $scope.$watch("isNotifyMode", function (newValue, oldValue) {
+                console.log('$scope.$watch("isNotifyMode", function (newValue:%O, oldValue:%O)', newValue, oldValue);
+                $scope.setModeNotify($scope.isNotifyMode);
+            });
+            */
+           
+            $scope.MapBOExports = MapBOExports;
+
             IssueBO.getTargetTextIndex().then(function(targetTextIndex) {
                 $scope.targetTextIndex = targetTextIndex;
-                $scope.map.markersUpdate();
+                //$scope.map.markersUpdate();
             });
         }
 
-        //Another alternative is using "layer.visible" but implies having always all floor layers downloaded (better bandwith performance #perfmatters)
+        
         $scope.setFloorLayer = function setFloorLayer(floor) {
             $scope.map.activeFloorLayerDelete();
-            $scope.$apply(); //¡SMELL! - Needed to refresh map view. Layers won't show unless old ones deleted first. Deleting and changing layers at the same time won't work.
+            //¡SMELL! - Needed to refresh map view. Layers won't show unless old ones deleted first. Deleting and changing layers at the same time won't work.
+            //Another alternative is using "layer.visible" but implies having always all floor layers downloaded (better bandwith performance #perfmatters)
+            $scope.$apply(); 
 
             $scope.map.setActiveFloorLayer(floor);
         }
 
+        /*
         $scope.setModeNotify = function setModeNotify(shouldModeNotify) {
-            if (shouldModeNotify) {
-                $location.search('notifyMode', 'true');
-                this.map.markersShowNotify();
-            } else {
-                $location.search('notifyMode', 'false');
-                this.map.markersShowIssues();
+            if ($scope.map != undefined) {
+                if (shouldModeNotify) {
+                    //$location.search('notifyMode', 'true');
+                    $scope.map.markersShowNotify();
+                } else {
+                    //$location.search('notifyMode', 'false');
+                    $scope.map.markersShowIssues();
+                }
             }
+        }
+        */
+
+        $scope.cancelNotifyModeClick = function cancelNotifyModeClick() {
+            IssuemapCtrlExport.setIsNotifyMode(false);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,4 +148,4 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         $scope.init();
-    }]);
+    }])

@@ -15,7 +15,7 @@
 
 //REFACTOR - Decrease dependencies - Using Issue DAO and BO. Maybe using just BO will be better. For that BO needs the issuelist. Nowadays we are using the raw IssueDAO.issues fetched from API. BO is needed to get some data like the mapping issue.state 2 legible text
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('MapBO', ['$q', 'IssueDAO', 'IssueBO', 'MapBOMarkerNotify', function($q, IssueDAO, IssueBO, MapBOMarkerNotify) {
+    .service('MapBO', ['$q', 'MapBOExports', 'IssueDAO', 'IssueBO', function($q, MapBOExports, IssueDAO, IssueBO) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self; //Used to hold "this"
@@ -44,6 +44,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.isNotifyMode = false;
 
             IssueDAO.observer.subscribe("fetch", this.markersUpdate);
+            MapBOExports.observer.subscribe("modify-isNotifyMode", this.setModeNotify);
 
             this.center = {
                 lat: 38.383572, // Leaflet map default latitude - Set to University of Alicante
@@ -56,7 +57,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.initIcons();
             this.initMarkers();
 
-            MapBOMarkerNotify.icon = this.icons.issue.state.PENDING;
+            MapBOExports.markerNotify.icon = this.icons.issue.state.PENDING;
         }
 
         this.initTiles = function initTiles() {
@@ -195,9 +196,8 @@ angular.module('mejoruaSmartphoneAngularApp')
                             icon: self.icons.issue.state[remoteIssue.state],
                             message: '<p class="issue state' + remoteIssue.state + '"> ' + issueBO.modelState2viewText[remoteIssue.state] + '<br/>' +
                                 remoteIssue.action + '<br/>' +
-                                'targetText[remoteIssue.id]:{{targetTextIndex[remoteIssue.id]}}<br/>' +
-                                '<a href="#/issueDetail/' + remoteIssue.id + '" class="btn btn-xs btn-block">Ver detalles</a>' +
-                                'test:{{test}}</p>',
+                                '{{targetTextIndex[' + remoteIssue.id + ']}}<br/>' +
+                                '<a href="#/issueDetail/' + remoteIssue.id + '" class="btn btn-xs btn-block">Ver detalles</a>',
                             getMessageScope: function () { 
                                 return self.targetScope;
                             },
@@ -246,7 +246,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             this.layers.active.overlays.floorDenomination = this.layers.sigua.floor[floor].deno;
 
             //Update notify marker active floor
-            MapBOMarkerNotify.data.floor = this.mapFloor2modelFloor[floor];
+            MapBOExports.markerNotify.data.floor = this.mapFloor2modelFloor[floor];
         }
 
         this.activeFloorLayerDelete = function activeFloorLayerDelete() {
@@ -254,13 +254,21 @@ angular.module('mejoruaSmartphoneAngularApp')
             delete this.layers.active.overlays.floorDenomination;
         }
 
+        this.setModeNotify = function setModeNotify(shouldModeNotify) {
+            if (shouldModeNotify) {
+                self.markersShowNotify();
+            } else {
+                self.markersShowIssues();
+            }
+        }
+
         this.markersShowNotify = function markersShowNotify() {
-            MapBOMarkerNotify.lat = this.center.lat;
-            MapBOMarkerNotify.lng = this.center.lng;
+            MapBOExports.markerNotify.lat = this.center.lat;
+            MapBOExports.markerNotify.lng = this.center.lng;
 
             this.markers.issues = this.markers.active;
             this.markers.active = {};
-            this.markers.active.notify = MapBOMarkerNotify;
+            this.markers.active.notify = MapBOExports.markerNotify;
         }
 
         this.markersShowIssues = function markersShowIssues() {
@@ -269,7 +277,8 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         //this.init();
     }])
-    .factory('MapBOMarkerNotify', function clientIdFactory() {
+/*
+    .factory('MapBOExports.markerNotify', function clientIdFactory() {
         return {
             lat: undefined, //Set on MapBO.markersShowNotify()
             lng: undefined, //Set on MapBO.markersShowNotify()
@@ -279,3 +288,34 @@ angular.module('mejoruaSmartphoneAngularApp')
             data: {} //Holder for active floor, wich is needed to get the SIGUA id (needs floor,lat,lng)
         };
     });
+*/
+    .service('MapBOExports', ['ObserverService', function(ObserverService) {
+
+        this.init = function init() {
+            this.observer = ObserverService.create();
+            this.observer.addEvent("modify-isNotifyMode");
+
+            this.isNotifyMode = false;
+        }
+
+        /**
+         * Shared marker info between IssueMapCtrl and IssueNotifyCtrl
+         * 
+         * @type {Object}
+         */
+        this.markerNotify = {
+            lat: undefined, //Set on MapBO.markersShowNotify()
+            lng: undefined, //Set on MapBO.markersShowNotify()
+            icon: undefined, //Set on MapBO.init()
+            message: '<p>Drag the marker to the exact location</p>',
+            draggable: true,
+            data: {} //Holder for active floor, wich is needed to get the SIGUA id (needs floor,lat,lng)
+        }     
+
+        this.setIsNotifyMode = function setModeNotify(isMode) {
+            this.isNotifyMode = isMode;
+            this.observer.notify("modify-isNotifyMode", isMode);
+        }
+
+        this.init();
+    }]);

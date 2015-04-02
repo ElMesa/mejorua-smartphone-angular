@@ -8,7 +8,7 @@
  * Controller of the mejoruaSmartphoneAngularApp
  */
 angular.module('mejoruaSmartphoneAngularApp')
-  .controller('IssuenotifyCtrl', ['$scope', 'IssueDAO', 'IssueBO', 'MapBOMarkerNotify', 'RoomElementsDAO', function ($scope, IssueDAO, IssueBO, MapBOMarkerNotify, RoomElementsDAO) {
+  .controller('IssuenotifyCtrl', ['$scope', 'IssueDAO', 'IssueBO', 'MapBOExports', 'RoomElementsDAO', function ($scope, IssueDAO, IssueBO, MapBOExports, RoomElementsDAO) {
     	$scope.issueBO = undefined; //Holds the bussiness object of the shown issue
         $scope.issue = undefined; // Holds issueBO.view, the object composed of remote issue + presentation data (example: for a given state, url of icon, css class)
 
@@ -28,10 +28,10 @@ angular.module('mejoruaSmartphoneAngularApp')
             $scope.targetIndex = -1;
 
             $scope.issueNotify = IssueBO.create();
-            $scope.issueNotify.models.issue.latitude = MapBOMarkerNotify.lat;
-            $scope.issueNotify.models.issue.longitude = MapBOMarkerNotify.lng;
-            $scope.issueNotify.models.floor = MapBOMarkerNotify.data.floor;
-            $scope.issueNotify.getIdSIGUAFromFloorLatLng(MapBOMarkerNotify.data.floor, MapBOMarkerNotify.lat, MapBOMarkerNotify.lng).success(function () {
+            $scope.issueNotify.models.issue.latitude = MapBOExports.markerNotify.lat;
+            $scope.issueNotify.models.issue.longitude = MapBOExports.markerNotify.lng;
+            $scope.issueNotify.models.floor = MapBOExports.markerNotify.data.floor;
+            $scope.issueNotify.getIdSIGUAFromFloorLatLng(MapBOExports.markerNotify.data.floor, MapBOExports.markerNotify.lat, MapBOExports.markerNotify.lng).success(function () {
                 $scope.issueNotify.updateSIGUAData();
                 $scope.RoomElementsDAO.getBySIGUARoomId($scope.issueNotify.models.issue.idSIGUA).then(function (elements) {
                     

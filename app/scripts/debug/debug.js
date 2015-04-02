@@ -13,7 +13,7 @@ function ls() {
 }
 
 function get(attribute) {
-    angularDebug.set(attribute, value);
+    return angularDebug.get(attribute);
 }
 
 function set(attribute, value) {

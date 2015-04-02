@@ -10,6 +10,8 @@
 angular.module('mejoruaSmartphoneAngularApp')
   .controller('IssuelistCtrl', ['$scope', 'IssueBO', function ($scope, IssueBO) {
     
+    console.log("IssuelistCtrl executed");
+
   	$scope.getIconURL = function getIconURL(state) {
       return 'views/icons/state' + state + '.html'
     }

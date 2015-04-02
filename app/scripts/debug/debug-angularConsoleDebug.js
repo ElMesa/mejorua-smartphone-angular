@@ -9,11 +9,11 @@ var DEBUG = DEBUG || {};
         this.targetScopeId = "view_mainContent";
         this.scopeActive = undefined; //The actual angular scope gathered
 
-        this.get = function get() {
+        this.get = function get(attribute) {
             var getted;
 
             if (this._scopeCheckAndGather()) {
-                var getted = this.scopeActive[attribute];
+                getted = this.scopeActive[attribute];
             }
 
             return getted;

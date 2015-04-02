@@ -37,11 +37,11 @@
 <leaflet center="map.center" layers="map.layers.active" markers="map.markers.active" width="auto" height="60%"></leaflet>
 <!-- Contextual actions holder -->
 <div class="viewFooter">
-    <div ng-show="!map.isNotifyMode">
+    <div ng-show="!MapBOExports.isNotifyMode">
         <button ng-click="DEBUGissuePost()">Post random issue</button>
     </div>
-    <div ng-show="map.isNotifyMode">
-        <button class="btn btn-danger" ng-click="setModeNotify(false)">Cancel</button>
+    <div ng-show="MapBOExports.isNotifyMode">
+        <button class="btn btn-danger" ng-click="MapBOExports.setIsNotifyMode(false)">Cancel</button>
         <a href="#/issueNotify" class="btn btn-success">Notify</a>
     </div>
 </div>
