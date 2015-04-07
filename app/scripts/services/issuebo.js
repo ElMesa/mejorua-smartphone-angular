@@ -8,7 +8,7 @@
  * Service in the mejoruaSmartphoneAngularApp.
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('IssueBO', ['$q', 'IssueDAO', 'SiguaDAO', 'RoomElementsDAO', function($q, IssueDAO, SiguaDAO, RoomElementsDAO) {
+    .service('IssueBO', ['$q', 'IssueDAO', 'SiguaDAO', 'RoomElementsDAO', 'RoomCharacteristicsDAO', function($q, IssueDAO, SiguaDAO, RoomElementsDAO, RoomCharacteristicsDAO) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self = this;
@@ -260,7 +260,12 @@ angular.module('mejoruaSmartphoneAngularApp')
                             });
                             break;
                         case "CHARACTERISTIC":
-                            //text = RoomCharacterosticsDAO.types[target.typeId].subtypes[target.id].description.es;
+                            RoomCharacteristicsDAO.getById(target.typeId, target.id).then(function(element) {
+                                deferred.resolve({
+                                    text: element.description.es,
+                                    issueBO: self
+                                });
+                            });
                             break;
                         default:
                             deferred.reject('Unknown target type');

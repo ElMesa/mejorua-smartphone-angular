@@ -10,7 +10,6 @@
  * @property {HashMap<ElementType>} types
  * @property {ElementTypesTable} table (complete description above {ElementTypesTable} methods)
  * @param {HashMap<String,Object>} this.room Hashmap of UGE (http://sga.ua.es/es/gestion-espacios/) room id holding a ".elements" array of objects containing typeId and id of the elements present in that room
- * @param {UGERoomMapping} UGE holds mapping grom UGE_id to SIGUA_id and viceversa
  *
  * Datamodel - {ElementType}:
  * {
@@ -54,11 +53,8 @@ angular.module('mejoruaSmartphoneAngularApp')
         this.UAOpenData_datasetMode = 'data'; //data || meta
         this.UAOpenData_datasetURL = 'https://dev.datos.ua.es/uapi/' + this.UAOpenData_APIKey + '/datasets/' + this.UAOpenData_datasetId + '/data';
 
-        this.proxy_BaseURL = 'http://localhost:8080/mejorua-api/api/proxy';
-        this.proxy_targerURLEncoded = encodeURIComponent(this.UAOpenData_datasetURL);
-        this.proxy_url = this.proxy_BaseURL + '?url=' + this.proxy_targerURLEncoded;
-
         this.init = function init() {
+            console.log('RoomElementsDAO.init()');
             self = this;
 
             var initRoomElementsDeferred = $q.defer();
@@ -66,8 +62,8 @@ angular.module('mejoruaSmartphoneAngularApp')
 
             var UGEpromise;
 
+            //Once room id's mapping are ready, continue init
             UGEpromise = this.initUGE();
-            
             UGEpromise.then(function (){ 
                 self.initRoomElements(initRoomElementsDeferred);
             });

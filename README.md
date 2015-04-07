@@ -3,7 +3,6 @@
 Rewrite of the client in angular
 
 ## Tasks
-* IssueBO - var self is being shared between every instance. Review creation to have independent var self for each one
 
 * Issues::Update
     * Solve view not updated after update response
