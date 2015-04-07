@@ -10,19 +10,17 @@
  * @param {$q.defer().promise} initDonePromise Promise for the init process. Used in every getter/setter.
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .service('RoomCharacteristicsDAO', ['$q', 'UAPI', 'UGE' ,function($q, UAPI, UGE) {
+    .service('RoomCharacteristicsDAO', ['$q', 'UAPI', 'UGE', function($q, UAPI, UGE) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self;
-        this.table = {};
-        this.types;
+        this.characteristic;
         this.room;
-        this.UGE;
         this.datasetId;
         this.initRoomCharacteristicsPromise;
 
         this.init = function init() {
-        	console.log('RoomCharacteristicsDAO.init()');
+            console.log('RoomCharacteristicsDAO.init()');
             self = this;
 
             var initDoneDeferred;
@@ -56,79 +54,56 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         this.parse_RoomCharacteristicsArray = function parse_RoomCharacteristicsArray(RoomCharacteristicsArray, deferred) {
-        	
-        	console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O)', RoomCharacteristicsArray);
-        	//Example code from RoomElementsDAO.import_UAPI_RoomElements()
-        	/*
-            var elementTypes = {};
-            var elementTypeId;
-            var elementTypeDescription_es;
-            var elementTypeDescription_ca;
-            var elementTypeDescription_en;
-            var elementId;
-            var elementDescription_es;
-            var elementDescription_ca;
-            var elementDescription_en;
-            var elementObservations;
-            var roomUGEId;
+            var characteristic = {}; //{Hshmap<String,{UGECharacteristic}>} Index of characteristics by it's id
+            var newCharacteristic;
             var roomSIGUAId;
-            var subtype;
+            var roomUGEId;
+            var characteristicId;
+            var characteristicDescription_es;
+            var characteristicDescription_ca;
+            var characteristicDescription_en;
+            var characteristicCuantity;
+            var roomHasCharacteristic;
 
-            this.room = this.room || {};
+            self.room = self.room || {};
 
-            for (var i = 0; i < UAPI_RoomElementsArray.length; i++) {
+            for (var i = 0; i < RoomCharacteristicsArray.length; i++) {
                 //Get data (Table2Object mapping)
-                elementTypeId = UAPI_RoomElementsArray[i].ID_TIPELEMENTO;
-                elementTypeDescription_ca = UAPI_RoomElementsArray[i].TPE_DESID1;
-                elementTypeDescription_es = UAPI_RoomElementsArray[i].TPE_DESID2;
-                elementTypeDescription_en = UAPI_RoomElementsArray[i].TPE_DESID3;
-                elementId = UAPI_RoomElementsArray[i].ID_ELEMENTO;
-                elementDescription_ca = UAPI_RoomElementsArray[i].ELE_DESID1;
-                elementDescription_es = UAPI_RoomElementsArray[i].ELE_DESID2;
-                elementDescription_en = UAPI_RoomElementsArray[i].ELE_DESID3;
-                elementObservations = UAPI_RoomElementsArray[i].OBSELE;
-                roomUGEId = UAPI_RoomElementsArray[i].AUL_CODNUM;
+	            characteristicId = RoomCharacteristicsArray[i].TPC_CODNUM;
+	            characteristicDescription_ca = RoomCharacteristicsArray[i].TPC_DESID1;
+	            characteristicDescription_es = RoomCharacteristicsArray[i].TPC_DESID2;
+	            characteristicDescription_en = RoomCharacteristicsArray[i].TPC_DESID3;
+
+	            characteristicCuantity = RoomCharacteristicsArray[i].ID_TIPELEMENTO;
+	            roomUGEId = RoomCharacteristicsArray[i].AUL_CODNUM;
+	            roomHasCharacteristic = RoomCharacteristicsArray[i].ID_TIPELEMENTO;
 
                 //Sintetize object
-                elementTypes[elementTypeId] = elementTypes[elementTypeId] || {};
-                elementTypes[elementTypeId].id = elementTypeId;
-                elementTypes[elementTypeId].description = {
-                    es: elementTypeDescription_es,
-                    ca: elementTypeDescription_ca,
-                    en: elementTypeDescription_en
+                characteristic[characteristicId] = characteristic[characteristicId] || {};
+                characteristic[characteristicId].id = characteristicId;
+                characteristic[characteristicId].description = {
+                    es: characteristicDescription_es,
+                    ca: characteristicDescription_ca,
+                    en: characteristicDescription_en
                 }
-
-                subtype = {
-                    id: elementId,
-                    typeId: elementTypeId,
-                    description: {
-                        es: elementDescription_es,
-                        ca: elementDescription_ca,
-                        en: elementDescription_en
-                    },
-                    observations: elementObservations
-                }
-
-                elementTypes[elementTypeId].subtype = elementTypes[elementTypeId].subtype || {};
-                elementTypes[elementTypeId].subtype[elementId] = subtype;
 
                 //Room elements index generation
-                roomSIGUAId = this.UGE.UGERoomId2SIGUARoomId[roomUGEId];
-                this.room[roomSIGUAId] = this.room[roomSIGUAId] || {};
-                this.room[roomSIGUAId].elements = this.room[roomSIGUAId].elements || [];
-                this.room[roomSIGUAId].elements.push({
-                    typeId: elementTypeId,
-                    id: elementId
+                roomSIGUAId = UGE.UGERoomId2SIGUARoomId[roomUGEId];
+                self.room[roomSIGUAId] = self.room[roomSIGUAId] || {};
+                self.room[roomSIGUAId].characteristics = self.room[roomSIGUAId].elements || [];
+                self.room[roomSIGUAId].characteristics.push({
+                    id: characteristicId
                 });
-				
+
             }
 
-            this.types = elementTypes;
+            self.characteristic = characteristic;
+            console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.characteristic:%O', RoomCharacteristicsArray, self.characteristic);
+            console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.room:%O', RoomCharacteristicsArray, self.room);
 
-            deferred.resolve('done');
+            deferred.resolve(self);
 
             return deferred;
-            */
         }
 
         this.init();
