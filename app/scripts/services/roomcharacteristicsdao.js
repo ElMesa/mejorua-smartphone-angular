@@ -14,10 +14,10 @@ angular.module('mejoruaSmartphoneAngularApp')
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self;
-        this.characteristic;
+        this.characteristics;
         this.room;
         this.datasetId;
-        this.initRoomCharacteristicsPromise;
+        this.initDonePromise;
 
         this.init = function init() {
             console.log('RoomCharacteristicsDAO.init()');
@@ -54,7 +54,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         this.parse_RoomCharacteristicsArray = function parse_RoomCharacteristicsArray(RoomCharacteristicsArray, deferred) {
-            var characteristic = {}; //{Hshmap<String,{UGECharacteristic}>} Index of characteristics by it's id
+            var characteristics = {}; //{Hshmap<String,{UGECharacteristic}>} Index of characteristics by it's id
             var newCharacteristic;
             var roomSIGUAId;
             var roomUGEId;
@@ -79,9 +79,9 @@ angular.module('mejoruaSmartphoneAngularApp')
 	            roomHasCharacteristic = RoomCharacteristicsArray[i].ID_TIPELEMENTO;
 
                 //Sintetize object
-                characteristic[characteristicId] = characteristic[characteristicId] || {};
-                characteristic[characteristicId].id = characteristicId;
-                characteristic[characteristicId].description = {
+                characteristics[characteristicId] = characteristics[characteristicId] || {};
+                characteristics[characteristicId].id = characteristicId;
+                characteristics[characteristicId].description = {
                     es: characteristicDescription_es,
                     ca: characteristicDescription_ca,
                     en: characteristicDescription_en
@@ -97,13 +97,29 @@ angular.module('mejoruaSmartphoneAngularApp')
 
             }
 
-            self.characteristic = characteristic;
-            console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.characteristic:%O', RoomCharacteristicsArray, self.characteristic);
-            console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.room:%O', RoomCharacteristicsArray, self.room);
+            self.characteristics = characteristics;
+            //console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.characteristic:%O', RoomCharacteristicsArray, self.characteristic);
+            //console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.room:%O', RoomCharacteristicsArray, self.room);
 
             deferred.resolve(self);
 
             return deferred;
+        }
+
+        this.getBySIGUARoomId = function getBySIGUARoomId(roomSIGUAId) {
+            var deferred = $q.defer();
+            var characteristics;
+
+            self.initDonePromise.then(function() {
+                if(self.room && self.room[roomSIGUAId]) {
+                    characteristics = self.room[roomSIGUAId].characteristics;
+                    deferred.resolve(characteristics);
+                } else {
+                    deferred.reject('Could nor retrieve characteristics');
+                }
+            });
+            
+            return deferred.promise;
         }
 
         this.init();

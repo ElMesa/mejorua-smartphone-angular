@@ -38,7 +38,7 @@
 
             <select class="form-control" ng-model="targetIndex" ng-hide="isModeReadOnly">
                 <option value="-1" disabled>Elija el objetivo de la incidencia</option>
-                <option ng-repeat="element in roomElements track by $index" value="{{$index}}">{{element.description}}</option>
+                <option ng-repeat="target in room.targets track by $index" value="{{$index}}">{{target.description.es}}</option>
             </select>
         </div>
         

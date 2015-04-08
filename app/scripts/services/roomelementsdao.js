@@ -235,7 +235,7 @@ angular.module('mejoruaSmartphoneAngularApp')
 
             this.types = elementTypes;
 
-            deferred.resolve('done');
+            deferred.resolve(self);
 
             return deferred;
         }

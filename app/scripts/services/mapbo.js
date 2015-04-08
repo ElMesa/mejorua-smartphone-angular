@@ -36,12 +36,9 @@ angular.module('mejoruaSmartphoneAngularApp')
             return newMap;
         }
 
-        this.init = function init($scope) {
+        this.init = function init() {
+            console.log('MapBO.init()');
             self = this;
-
-            this.targetScope = $scope;
-
-            this.isNotifyMode = false;
 
             IssueDAO.observer.subscribe("fetch", this.markersUpdate);
             MapBOExports.observer.subscribe("modify-isNotifyMode", this.setModeNotify);
@@ -207,7 +204,7 @@ angular.module('mejoruaSmartphoneAngularApp')
                 }
 
                 self.markers.issues = markers;
-                if (!self.isNotifyMode) self.markersShowIssues();
+                if (!MapBOExports.isNotifyMode) self.markersShowIssues();
 
             });
 
@@ -255,6 +252,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         this.setModeNotify = function setModeNotify(shouldModeNotify) {
+            console.log('MapBO.setModeNotify(shouldModeNotify:%O)', shouldModeNotify);
             if (shouldModeNotify) {
                 self.markersShowNotify();
             } else {
@@ -266,16 +264,20 @@ angular.module('mejoruaSmartphoneAngularApp')
             MapBOExports.markerNotify.lat = this.center.lat;
             MapBOExports.markerNotify.lng = this.center.lng;
 
-            this.markers.issues = this.markers.active;
             this.markers.active = {};
             this.markers.active.notify = MapBOExports.markerNotify;
         }
 
         this.markersShowIssues = function markersShowIssues() {
+            this.markers.active = {};
             this.markers.active = this.markers.issues;
         }
 
-        //this.init();
+        this.setTargetScope = function setTargetScope(targetScope) {
+            this.targetScope = targetScope;
+        }
+
+        this.init();
     }])
 /*
     .factory('MapBOExports.markerNotify', function clientIdFactory() {

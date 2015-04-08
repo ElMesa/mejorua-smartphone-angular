@@ -19,55 +19,23 @@ angular.module('mejoruaSmartphoneAngularApp')
         });
 
         $scope.init = function init() {
-            $scope.map = MapBO;
-            $scope.map.init($scope);
-
-            //$scope.map.isNotifyMode = $location.search().notifyMode == "true";
-            //$scope.setModeNotify($scope.isNotifyMode);
-            /*
-            $scope.IssuemapCtrlExport = IssuemapCtrlExport;
-            //$scope.isNotifyMode = IssuemapCtrlExport.getIsNotifyMode();
-            $scope.isNotifyMode = IssuemapCtrlExport.isNotifyMode;
-            $scope.$watch("isNotifyMode", function (newValue, oldValue) {
-                console.log('$scope.$watch("isNotifyMode", function (newValue:%O, oldValue:%O)', newValue, oldValue);
-                $scope.setModeNotify($scope.isNotifyMode);
-            });
-            */
-           
             $scope.MapBOExports = MapBOExports;
+
+            $scope.map = MapBO;
+            $scope.map.setTargetScope($scope);
 
             IssueBO.getTargetTextIndex().then(function(targetTextIndex) {
                 $scope.targetTextIndex = targetTextIndex;
-                //$scope.map.markersUpdate();
             });
         }
 
-        
         $scope.setFloorLayer = function setFloorLayer(floor) {
             $scope.map.activeFloorLayerDelete();
             //¡SMELL! - Needed to refresh map view. Layers won't show unless old ones deleted first. Deleting and changing layers at the same time won't work.
             //Another alternative is using "layer.visible" but implies having always all floor layers downloaded (better bandwith performance #perfmatters)
-            $scope.$apply(); 
+            $scope.$apply();
 
             $scope.map.setActiveFloorLayer(floor);
-        }
-
-        /*
-        $scope.setModeNotify = function setModeNotify(shouldModeNotify) {
-            if ($scope.map != undefined) {
-                if (shouldModeNotify) {
-                    //$location.search('notifyMode', 'true');
-                    $scope.map.markersShowNotify();
-                } else {
-                    //$location.search('notifyMode', 'false');
-                    $scope.map.markersShowIssues();
-                }
-            }
-        }
-        */
-
-        $scope.cancelNotifyModeClick = function cancelNotifyModeClick() {
-            IssuemapCtrlExport.setIsNotifyMode(false);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
