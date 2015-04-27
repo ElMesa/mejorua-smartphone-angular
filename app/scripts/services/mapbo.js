@@ -195,7 +195,7 @@ angular.module('mejoruaSmartphoneAngularApp')
                                 remoteIssue.action + '<br/>' +
                                 '{{targetTextIndex[' + remoteIssue.id + ']}}<br/>' +
                                 '<a href="#/issueDetail/' + remoteIssue.id + '" class="btn btn-xs btn-block">Ver detalles</a>',
-                            getMessageScope: function () { 
+                            getMessageScope: function() {
                                 return self.targetScope;
                             },
                             compileMessage: true
@@ -209,6 +209,64 @@ angular.module('mejoruaSmartphoneAngularApp')
             });
 
             return deferred.promise;
+        }
+
+        this.layerToogle = function markersToogle(name) {
+            var layer = self.layers.overlays[name];
+
+            if (layer.visible) layer.visible = false;
+            else layer.visible = true;
+        }
+
+
+        this.markersAdd = function markersAdd(groupName, markersSource, source2marker, options) {
+            var markers = {};
+            var marker;
+            var itemName;
+            var item;
+
+            //Setup layer overlays annd make active and visible the new layer
+            self.layers[groupName] = {
+                type: 'group',
+                name: groupName,
+                visible: true
+            }
+            self.layers.active.overlays[groupName] = self.layers[groupName];
+
+            //Generate markers
+            for (itemName in markersSource) {
+                item = markersSource[itemName];
+                marker = source2marker(item, groupName, options);
+                markers[groupName + "_" + itemName] = marker;
+            }
+
+            //Add markers, and active them
+            self.markers[groupName] = markers;
+            angular.extend(self.markers.active, markers);
+
+            if (options && options.deferred != undefined) options.deferred.resolve(markers);
+        }
+
+        this.source2marker_SIGUARoomId2Marker = function source2marker_RoomElements2Marker(sourceItem, groupName, options) {
+            var id = sourceItem.features[0].properties.codigo;
+            var lat = sourceItem.features[0].properties.lat;
+            var lng = sourceItem.features[0].properties.lon;
+
+            //Generate icon with override from options.icon
+            var icon = angular.copy(self.icons.template);
+            icon.icon = 'info';
+            icon.markerColor = 'blue';
+            if (options && options.icon) angular.extend(icon, options.icon);
+
+            var marker = {
+                layer: groupName,
+                lat: lat,
+                lng: lng,
+                icon: icon,
+                message: '<p>Group: ' + groupName + '</p><p>Room: ' + id + '</p>',
+            }
+
+            return marker;
         }
 
         this.newLayerConfig = function newLayerConfig(url, isFloor) {
@@ -279,18 +337,18 @@ angular.module('mejoruaSmartphoneAngularApp')
 
         this.init();
     }])
-/*
-    .factory('MapBOExports.markerNotify', function clientIdFactory() {
-        return {
-            lat: undefined, //Set on MapBO.markersShowNotify()
-            lng: undefined, //Set on MapBO.markersShowNotify()
-            icon: undefined, //Set on MapBO.init()
-            message: '<p>Drag the marker to the exact location</p>',
-            draggable: true,
-            data: {} //Holder for active floor, wich is needed to get the SIGUA id (needs floor,lat,lng)
-        };
-    });
-*/
+    /*
+        .factory('MapBOExports.markerNotify', function clientIdFactory() {
+            return {
+                lat: undefined, //Set on MapBO.markersShowNotify()
+                lng: undefined, //Set on MapBO.markersShowNotify()
+                icon: undefined, //Set on MapBO.init()
+                message: '<p>Drag the marker to the exact location</p>',
+                draggable: true,
+                data: {} //Holder for active floor, wich is needed to get the SIGUA id (needs floor,lat,lng)
+            };
+        });
+    */
     .service('MapBOExports', ['ObserverService', function(ObserverService) {
 
         this.init = function init() {
@@ -312,7 +370,7 @@ angular.module('mejoruaSmartphoneAngularApp')
             message: '<p>Drag the marker to the exact location</p>',
             draggable: true,
             data: {} //Holder for active floor, wich is needed to get the SIGUA id (needs floor,lat,lng)
-        }     
+        }
 
         this.setIsNotifyMode = function setModeNotify(isMode) {
             this.isNotifyMode = isMode;

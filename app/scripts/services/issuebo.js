@@ -285,13 +285,22 @@ angular.module('mejoruaSmartphoneAngularApp')
                 return promise;
             }
 
-            this.setTarget = function setTarget(type, typeId, id, genericDesciption) {
-                this.models.issue.target = {
-                    type: type,
-                    typeId: typeId,
-                    id: id,
-                    genericDesciption: genericDesciption
-                };
+            /**
+             * Set's IssueBO target adapting it to the remote API.IssueTargetYO
+             *
+             * We get rid of attributes description and observations wich arent in the remote
+             * API.IssueTargetYO class (allows simple JSON parsing on backend)
+             * 
+             * @param {[type]} target [description]
+             */
+            this.setTarget = function setTarget(target) {
+                var filteredTarget;
+
+                filteredTarget = angular.copy(target);
+                filteredTarget.description = undefined;
+                filteredTarget.observations = undefined;
+
+                this.models.issue.target = filteredTarget;
             }
 
             this.init();

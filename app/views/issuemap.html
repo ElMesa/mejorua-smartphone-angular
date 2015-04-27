@@ -8,24 +8,24 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#floorSelectorNav-collapse">
-                    <span class="sr-only">Toggle navigation</span> Plantas
+                    <span class="sr-only">Toggle navigation</span>Floors
                 </button>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="floorSelectorNav-collapse">
                 <ul class="nav nav-justified">
-                    <li><a id="btn_floorSelector_basement" href="" ng-click="setFloorLayer('basement')" class="btn btn-default" role="button">Sotano</a>
+                    <li><a id="btn_floorSelector_basement" href="" ng-click="setFloorLayer('basement')" class="btn btn-default" role="button">Basement</a>
                     </li>
-                    <li><a id="btn_floorSelector_ground" href="" ng-click="setFloorLayer('ground')" class="btn btn-default" role="button">Planta baja</a>
+                    <li><a id="btn_floorSelector_ground" href="" ng-click="setFloorLayer('ground')" class="btn btn-default" role="button">Ground floor</a>
                     </li>
-                    <li><a id="btn_floorSelector_first" ng-click="setFloorLayer('first')" class="btn btn-default" role="button">Planta primera</a>
+                    <li><a id="btn_floorSelector_first" ng-click="setFloorLayer('first')" class="btn btn-default" role="button">First floor</a>
                     </li>
-                    <li><a id="btn_floorSelector_second" ng-click="setFloorLayer('second')" class="btn btn-default" role="button">Planta segunda</a>
+                    <li><a id="btn_floorSelector_second" ng-click="setFloorLayer('second')" class="btn btn-default" role="button">Second floor</a>
                     </li>
-                    <li><a id="btn_floorSelector_third" ng-click="setFloorLayer('third')" class="btn btn-default" role="button">Planta tercera</a>
+                    <li><a id="btn_floorSelector_third" ng-click="setFloorLayer('third')" class="btn btn-default" role="button">Third floor</a>
                     </li>
-                    <li><a id="btn_floorSelector_fourth" ng-click="setFloorLayer('fourth')" class="btn btn-default" role="button">Planta cuarta</a>
+                    <li><a id="btn_floorSelector_fourth" ng-click="setFloorLayer('fourth')" class="btn btn-default" role="button">Fourth floor</a>
                     </li>
                 </ul>
             </div>
@@ -38,10 +38,14 @@
 <!-- Contextual actions holder -->
 <div class="viewFooter">
     <div ng-show="!MapBOExports.isNotifyMode">
-        <button ng-click="DEBUGissuePost()">Post random issue</button>
+        <!--<button ng-click="DEBUGissuePost()">Post random issue</button>-->
+        <button ng-click="DEBUGmarkersAddLayerRoomsWithElements()">Generate markers for rooms with elements</button>
+        <button ng-click="DEBUGmarkersAddLayerRoomsWithCharacteristics()">Generate markers for rooms with characteristics</button>
     </div>
     <div ng-show="MapBOExports.isNotifyMode">
-        <button class="btn btn-danger" ng-click="MapBOExports.setIsNotifyMode(false)">Cancel</button>
-        <a href="#/issueNotify" class="btn btn-success">Notify</a>
+        <div class="pull-right">
+            <button class="btn btn-danger" ng-click="MapBOExports.setIsNotifyMode(false)">Cancel</button>
+            <a href="#/issueNotify" class="btn btn-success">Notify</a>
+        </div>
     </div>
 </div>

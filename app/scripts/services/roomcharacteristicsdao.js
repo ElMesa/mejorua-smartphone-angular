@@ -14,6 +14,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self;
+        this.API_ISSUETARGETTO_TYPE;
         this.characteristics;
         this.room;
         this.datasetId;
@@ -24,6 +25,8 @@ angular.module('mejoruaSmartphoneAngularApp')
             self = this;
 
             var initDoneDeferred;
+
+            this.API_ISSUETARGETTO_TYPE = 'CHARACTERISTIC';
 
             initDoneDeferred = $q.defer();
             self.initDonePromise = initDoneDeferred.promise;
@@ -80,6 +83,7 @@ angular.module('mejoruaSmartphoneAngularApp')
 
                 //Sintetize object
                 characteristics[characteristicId] = characteristics[characteristicId] || {};
+                characteristics[characteristicId].type = this.API_ISSUETARGETTO_TYPE;
                 characteristics[characteristicId].id = characteristicId;
                 characteristics[characteristicId].description = {
                     es: characteristicDescription_es,
@@ -98,8 +102,8 @@ angular.module('mejoruaSmartphoneAngularApp')
             }
 
             self.characteristics = characteristics;
-            //console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.characteristic:%O', RoomCharacteristicsArray, self.characteristic);
-            //console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.room:%O', RoomCharacteristicsArray, self.room);
+            console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.characteristic:%O', RoomCharacteristicsArray, self.characteristics);
+            console.log('RoomCharacteristicsDAO.parse_RoomCharacteristicsArray(RoomCharacteristicsArray:%O) - self.room:%O', RoomCharacteristicsArray, self.room);
 
             deferred.resolve(self);
 
@@ -119,6 +123,16 @@ angular.module('mejoruaSmartphoneAngularApp')
                 }
             });
             
+            return deferred.promise;
+        }
+
+        this.getRooms = function getRooms() {
+            var deferred = $q.defer();
+
+            self.initDonePromise.then(function () {
+                deferred.resolve(self.room);
+            });
+
             return deferred.promise;
         }
 

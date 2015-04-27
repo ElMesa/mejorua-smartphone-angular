@@ -19,7 +19,8 @@ html, body, .container, .fill, #view_mainContent {
 
 .viewFooter {
 	height: 10%;
-	background-color: rgb(145, 247, 145);
+	padding: 15px;
+	/*background-color: rgb(145, 247, 145);*/
 }
 
 .viewContainer {

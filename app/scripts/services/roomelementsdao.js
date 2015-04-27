@@ -39,6 +39,7 @@ angular.module('mejoruaSmartphoneAngularApp')
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         var self;
+        this.API_ISSUETARGETTO_TYPE;
         this.table = {};
         this.types;
         this.room;
@@ -56,6 +57,8 @@ angular.module('mejoruaSmartphoneAngularApp')
         this.init = function init() {
             console.log('RoomElementsDAO.init()');
             self = this;
+
+            this.API_ISSUETARGETTO_TYPE = 'ELEMENT';
 
             var initRoomElementsDeferred = $q.defer();
             self.initRoomElementsPromise = initRoomElementsDeferred.promise;
@@ -201,6 +204,7 @@ angular.module('mejoruaSmartphoneAngularApp')
 
                 //Sintetize object
                 elementTypes[elementTypeId] = elementTypes[elementTypeId] || {};
+                elementTypes[elementTypeId].type = this.API_ISSUETARGETTO_TYPE;
                 elementTypes[elementTypeId].id = elementTypeId;
                 elementTypes[elementTypeId].description = {
                     es: elementTypeDescription_es,
@@ -342,6 +346,16 @@ angular.module('mejoruaSmartphoneAngularApp')
             }
 
             return colIndex;
+        }
+
+        this.getRooms = function getRooms() {
+            var deferred = $q.defer();
+
+            self.initRoomElementsPromise.then(function () {
+                deferred.resolve(self.room);
+            });
+
+            return deferred.promise;
         }
 
         this.init();

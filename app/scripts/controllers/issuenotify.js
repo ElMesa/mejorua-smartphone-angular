@@ -68,10 +68,9 @@ angular.module('mejoruaSmartphoneAngularApp')
         }
 
         $scope.notifyIssue = function notifyIssue() {
-            var elementtypeId = $scope.roomElements[$scope.targetIndex].typeId;
-            var elementId = $scope.roomElements[$scope.targetIndex].id;
+            var target = $scope.room.targets[$scope.targetIndex];
 
-            $scope.issueNotify.setTarget('ELEMENT', elementtypeId, elementId, undefined);
+            $scope.issueNotify.setTarget(target);
 
             IssueDAO.add($scope.issueNotify.models.issue);
         }

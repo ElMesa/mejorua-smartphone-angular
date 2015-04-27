@@ -8,7 +8,7 @@
  * Controller of the mejoruaSmartphoneAngularApp
  */
 angular.module('mejoruaSmartphoneAngularApp')
-    .controller('IssuemapCtrl', ['$scope', 'MapBO', 'MapBOExports', 'IssueDAO', 'IssueBO', '$location', function($scope, MapBO, MapBOExports, IssueDAO, IssueBO, $location) {
+    .controller('IssuemapCtrl', ['$scope', '$location', 'MapBO', 'MapBOExports', 'IssueDAO', 'IssueBO', 'RoomElementsDAO', 'SiguaDAO', 'RoomCharacteristicsDAO', function($scope, $location, MapBO, MapBOExports, IssueDAO, IssueBO, RoomElementsDAO, SiguaDAO, RoomCharacteristicsDAO) {
 
         $scope.map;
         $scope.targetTextIndex;
@@ -113,6 +113,54 @@ angular.module('mejoruaSmartphoneAngularApp')
         $scope.DEBUGissuePost = function DEBUGissuePost() {
             var randomIssue = IssueBO.createRandom();
             IssueDAO.add(randomIssue.models.issue);
+        }
+
+        $scope.DEBUGmarkersAddLayerRoomsWithElements = function DEBUGmarkersAddLayerRoomsWithElements() {
+            var promise;
+
+            promise = RoomElementsDAO.getRooms();
+            promise = promise.then(function (roomsWithElements) {
+                var roomIdArray = [];
+                for(var roomId in roomsWithElements) {
+                    roomIdArray.push(roomId);
+                }
+
+                var roomsPromise = SiguaDAO.roomGetByIdArray(roomIdArray);
+                return roomsPromise;
+            });
+            promise.then(function (roomsHashMap) {
+                MapBO.markersAdd('RoomsWithElements', roomsHashMap, MapBO.source2marker_SIGUARoomId2Marker);
+            });
+        }
+
+        $scope.DEBUGmarkersAddLayerRoomsWithCharacteristics = function DEBUGmarkersAddLayerRoomsWithCharacteristics() {
+            var promise;
+
+            promise = RoomCharacteristicsDAO.getRooms();
+            promise = promise.then(function (roomsWithElements) {
+                
+                var roomIdArray = [];
+                for(var roomId in roomsWithElements) {
+                    roomIdArray.push(roomId);
+                }
+                console.log('IssuemapCtrl - DEBUGmarkersAddLayerRoomsWithCharacteristics() - roomIdArray: %O', roomIdArray);
+
+                var roomsPromise = SiguaDAO.roomGetByIdArray(roomIdArray);
+
+                return roomsPromise;
+            });
+            promise.then(function (roomsHashMap) {
+                console.log('IssuemapCtrl - DEBUGmarkersAddLayerRoomsWithCharacteristics() - roomsHashMap: %O', roomsHashMap);
+
+                var options = {
+                    icon: {
+                        markerColor: 'orange'
+                    }
+                }
+
+                MapBO.markersAdd('RoomsWithCharacteristics', roomsHashMap, MapBO.source2marker_SIGUARoomId2Marker, options);
+                console.log('IssuemapCtrl - DEBUGmarkersAddLayerRoomsWithCharacteristics() - DONE');
+            });
         }
 
         $scope.init();

@@ -12,7 +12,7 @@
 
 /* Quick "hack" to disable layers UI control */
 .leaflet-control-layers {
-	display:none;
+	/*display:none;*/
 }
 
 /* 
